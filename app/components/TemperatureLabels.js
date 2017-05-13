@@ -20,7 +20,9 @@ class TemperatureLabels extends Component {
     };
     this.format = place => {
       const name = place.name;
-      const temp = `${parseInt(place.temp_in_c, 10)}C`;
+      const c = parseFloat(place.temp_in_c, 10);
+      const f = 32 + c * 9.0 / 5.0;
+      const temp = `${f.toFixed(0)}`;
       return `${name}\n${temp}`;
     };
   }
@@ -28,7 +30,6 @@ class TemperatureLabels extends Component {
     fetch('https://tempmap.s3.amazonaws.com/temps.json')
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           places: data.places
         });
@@ -36,7 +37,6 @@ class TemperatureLabels extends Component {
   }
   render() {
     if (this.state.places) {
-      console.log(this.state.dimensions);
       return (
         <View style={this.props.style}>
           {this.state.places.map(place => {
