@@ -15,17 +15,27 @@ const styles = StyleSheet.create({
 });
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hour: (new Date().getTime() / 1000 / 60 / 60).toFixed(0)
+    };
+    setInterval(() => {
+      this.setState({
+        hour: (new Date().getTime() / 1000 / 60 / 60).toFixed(0)
+      });
+    }, 1000 * 60 * 60);
+  }
   render() {
     return (
       <View style={styles.container}>
         <Image
           style={styles.map}
           source={{
-            cache: 'reload',
-            uri: 'https://tempmap.s3.amazonaws.com/temps.png'
+            uri: `https://tempmap.s3.amazonaws.com/temps.png?${this.state.hour}`
           }}
         >
-          <TemperatureLabels style={styles.labels} />
+          <TemperatureLabels style={styles.labels} hour={this.state.hour} />
         </Image>
       </View>
     );

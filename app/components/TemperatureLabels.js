@@ -27,7 +27,7 @@ class TemperatureLabels extends Component {
     };
   }
   componentWillMount() {
-    fetch('https://tempmap.s3.amazonaws.com/temps.json')
+    fetch(`https://tempmap.s3.amazonaws.com/temps.json?${this.props.hour}`)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -51,14 +51,14 @@ class TemperatureLabels extends Component {
                 key={place.name}
                 onLayout={this.onLayout(place.name)}
                 style={{
-                  textAlign: 'center',
-                  fontSize: 10,
-                  color,
-                  width: 55,
                   backgroundColor: 'rgba(0, 0, 0, 0)',
-                  position: 'absolute',
+                  color,
+                  fontSize: 10,
                   left: parseInt(place.x, 10) / 2 - offset,
-                  top: parseInt(place.y, 10) / 2
+                  top: parseInt(place.y, 10) / 2,
+                  position: 'absolute',
+                  textAlign: 'center',
+                  width: 55
                 }}
               >
                 {this.format(place)}
@@ -72,7 +72,11 @@ class TemperatureLabels extends Component {
   }
 }
 TemperatureLabels.propTypes = {
-  style: stylePropType.isRequired
+  style: stylePropType.isRequired,
+  hour: React.PropTypes.string
+};
+TemperatureLabels.defaultProps = {
+  hour: ''
 };
 
 export default TemperatureLabels;
