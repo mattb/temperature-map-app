@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image, View } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, View } from 'react-native';
 import TemperatureLabels from './TemperatureLabels';
 
 const styles = StyleSheet.create({
@@ -18,26 +18,42 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hour: (new Date().getTime() / 1000 / 60 / 60).toFixed(0)
+      hour: (new Date().getTime() / 1000 / 60 / 60).toFixed(0),
+      displayMode: 'name'
     };
     setInterval(() => {
       this.setState({
         hour: (new Date().getTime() / 1000 / 60 / 60).toFixed(0)
       });
     }, 1000 * 60 * 60);
+    const displayModes = ['name', 'temp', 'all', 'none'];
+    let displayModeIndex = 0;
+    this.viewClick = () => {
+      displayModeIndex = (displayModeIndex + 1) % displayModes.length;
+      this.setState({
+        displayMode: displayModes[displayModeIndex],
+        hour: (new Date().getTime() / 1000 / 60 / 60).toFixed(0)
+      });
+    };
   }
   render() {
     return (
-      <View style={styles.container}>
-        <Image
-          style={styles.map}
-          source={{
-            uri: `https://tempmap.s3.amazonaws.com/temps.png?${this.state.hour}`
-          }}
-        >
-          <TemperatureLabels style={styles.labels} hour={this.state.hour} />
-        </Image>
-      </View>
+      <TouchableOpacity onPress={this.viewClick} activeOpacity={0.8}>
+        <View style={styles.container}>
+          <Image
+            style={styles.map}
+            source={{
+              uri: `https://tempmap.s3.amazonaws.com/temps.png?${this.state.hour}`
+            }}
+          >
+            <TemperatureLabels
+              style={styles.labels}
+              hour={this.state.hour}
+              displayMode={this.state.displayMode}
+            />
+          </Image>
+        </View>
+      </TouchableOpacity>
     );
   }
 }

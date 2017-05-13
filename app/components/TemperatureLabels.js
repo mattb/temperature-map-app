@@ -23,27 +23,67 @@ class TemperatureLabels extends Component {
       const c = parseFloat(place.temp_in_c, 10);
       const f = 32 + c * 9.0 / 5.0;
       const temp = `${f.toFixed(0)}`;
-      return `${name}\n${temp}`;
+      if (this.props.displayMode === 'all') {
+        return `${name}\n${temp}`;
+      }
+      if (this.props.displayMode === 'none') {
+        return '';
+      }
+      if (this.props.displayMode === 'name') {
+        return `${name}`;
+      }
+      if (this.props.displayMode === 'temp') {
+        return `${temp}`;
+      }
+      return '';
     };
   }
   componentWillMount() {
+    this.getData();
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.displayMode !== nextProps.displayMode) {
+      this.setState({
+        dimensions: {}
+      });
+    }
+    if (this.props.hour !== nextProps.hour) {
+      this.getData();
+    }
+  }
+  getData() {
+    console.log(
+      `https://tempmap.s3.amazonaws.com/temps.json?${this.props.hour}`
+    );
     fetch(`https://tempmap.s3.amazonaws.com/temps.json?${this.props.hour}`)
       .then(response => response.json())
       .then(data => {
-        this.setState({
-          places: data.places
-        });
+        this.setState(data);
       });
   }
   render() {
     if (this.state.places) {
       return (
         <View style={this.props.style}>
+          <Text
+            style={{
+              fontSize: 10,
+              left: 20,
+              bottom: 20,
+              color: 'rgba(0, 0, 0, 1)',
+              position: 'absolute',
+              textAlign: 'center'
+            }}
+          >
+            {this.state.timestamp}
+          </Text>
           {this.state.places.map(place => {
-            let offset = 0;
+            let offsetX = 0;
+            let offsetY = 0;
             let color = 'rgba(0, 0, 0, 0)';
             if (this.state.dimensions[place.name]) {
-              offset = this.state.dimensions[place.name][0] / 2;
+              offsetX = this.state.dimensions[place.name][0] / 2;
+              offsetY = this.state.dimensions[place.name][1] / 2;
               color = 'rgba(0, 0, 0, 0.6)';
             }
             return (
@@ -54,11 +94,12 @@ class TemperatureLabels extends Component {
                   backgroundColor: 'rgba(0, 0, 0, 0)',
                   color,
                   fontSize: 10,
-                  left: parseInt(place.x, 10) / 2 - offset,
-                  top: parseInt(place.y, 10) / 2,
+                  fontWeight: 'bold',
+                  left: parseInt(place.x, 10) / 2 - offsetX,
+                  top: parseInt(place.y, 10) / 2 - offsetY,
                   position: 'absolute',
                   textAlign: 'center',
-                  width: 55
+                  width: 65
                 }}
               >
                 {this.format(place)}
@@ -73,10 +114,12 @@ class TemperatureLabels extends Component {
 }
 TemperatureLabels.propTypes = {
   style: stylePropType.isRequired,
-  hour: React.PropTypes.string
+  hour: React.PropTypes.string,
+  displayMode: React.PropTypes.string
 };
 TemperatureLabels.defaultProps = {
-  hour: ''
+  hour: '',
+  displayMode: 'all'
 };
 
 export default TemperatureLabels;
