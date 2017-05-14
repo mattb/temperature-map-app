@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import moment from 'moment';
 
 const stylePropType = require('react-style-proptype');
 
@@ -18,11 +19,10 @@ class TemperatureLabels extends Component {
         })
       }));
     };
+    this.f = c => 32 + parseFloat(c, 10) * 9.0 / 5.0;
     this.format = place => {
       const name = place.name;
-      const c = parseFloat(place.temp_in_c, 10);
-      const f = 32 + c * 9.0 / 5.0;
-      const temp = `${f.toFixed(0)}`;
+      const temp = `${this.f(place.temp_in_c).toFixed(0)}`;
       if (this.props.displayMode === 'all') {
         return `${name}\n${temp}`;
       }
@@ -58,7 +58,13 @@ class TemperatureLabels extends Component {
     fetch(`https://tempmap.s3.amazonaws.com/temps.json?${this.props.hour}`)
       .then(response => response.json())
       .then(data => {
-        this.setState(data);
+        this.setState(
+          Object.assign({}, data, {
+            when: moment(data.timestamp)
+              .local()
+              .format('MMMM Do YYYY, h:mm:ss a')
+          })
+        );
       });
   }
   render() {
@@ -68,14 +74,30 @@ class TemperatureLabels extends Component {
           <Text
             style={{
               fontSize: 10,
-              left: 20,
-              bottom: 20,
-              color: 'rgba(0, 0, 0, 1)',
+              left: 10,
+              bottom: 10,
+              color: 'rgba(0, 0, 0, 0.7)',
+              backgroundColor: 'rgba(230, 230, 230, 0.7)',
               position: 'absolute',
-              textAlign: 'center'
+              textAlign: 'left',
+              padding: 3
             }}
           >
-            {this.state.timestamp}
+            min
+            {' '}
+            {this.f(this.state.min_in_c).toFixed(0)}
+            {' '}
+            max
+            {' '}
+            {this.f(this.state.max_in_c).toFixed(0)}
+            {' '}
+            avg
+            {' '}
+            {this.f(this.state.average_in_c).toFixed(0)}
+            {'\n'}
+            last updated
+            {' '}
+            {this.state.when}
           </Text>
           {this.state.places.map(place => {
             let offsetX = 0;
