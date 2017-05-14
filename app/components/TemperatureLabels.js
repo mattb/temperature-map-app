@@ -62,11 +62,10 @@ class TemperatureLabels extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        this.setState(
-          Object.assign({}, data, {
-            when: moment(data.timestamp).local().format('MMMM Do YYYY [at] ha')
-          })
-        );
+        this.setState({
+          ...data,
+          when: moment(data.timestamp).local().format('MMMM Do YYYY [at] ha')
+        });
       });
   }
   render() {
@@ -143,7 +142,7 @@ TemperatureLabels.propTypes = {
 };
 TemperatureLabels.defaultProps = {
   hour: '',
-  displayMode: 'all'
+  displayMode: 'name'
 };
 
 export default TemperatureLabels;

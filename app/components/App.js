@@ -26,7 +26,7 @@ export default class App extends Component {
         hour: (new Date().getTime() / 1000 / 60 / 60).toFixed(0)
       });
     }, 1000 * 60 * 60);
-    const displayModes = ['name', 'temp', 'all', 'none'];
+    const displayModes = ['name', 'temp']; // 'all', 'none'
     let displayModeIndex = 0;
     this.viewClick = () => {
       displayModeIndex = (displayModeIndex + 1) % displayModes.length;
@@ -38,7 +38,7 @@ export default class App extends Component {
   }
   render() {
     return (
-      <TouchableOpacity onPress={this.viewClick} activeOpacity={0.8}>
+      <TouchableOpacity onPress={this.viewClick} activeOpacity={1}>
         <View style={styles.container}>
           <Image
             style={styles.map}
