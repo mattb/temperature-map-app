@@ -60,9 +60,7 @@ class TemperatureLabels extends Component {
       .then(data => {
         this.setState(
           Object.assign({}, data, {
-            when: moment(data.timestamp)
-              .local()
-              .format('MMMM Do YYYY, h:mm:ss a')
+            when: moment(data.timestamp).local().format('MMMM Do YYYY [at] ha')
           })
         );
       });
