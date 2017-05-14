@@ -55,7 +55,11 @@ class TemperatureLabels extends Component {
     console.log(
       `https://tempmap.s3.amazonaws.com/temps.json?${this.props.hour}`
     );
-    fetch(`https://tempmap.s3.amazonaws.com/temps.json?${this.props.hour}`)
+    fetch(`https://tempmap.s3.amazonaws.com/temps.json?${this.props.hour}`, {
+      headers: {
+        'Cache-Control': 'no-cache'
+      }
+    })
       .then(response => response.json())
       .then(data => {
         this.setState(

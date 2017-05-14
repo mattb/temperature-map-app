@@ -43,7 +43,8 @@ export default class App extends Component {
           <Image
             style={styles.map}
             source={{
-              uri: `https://tempmap.s3.amazonaws.com/temps.png?${this.state.hour}`
+              uri: `https://tempmap.s3.amazonaws.com/temps.png?${this.state.hour}`,
+              cache: 'reload'
             }}
           >
             <TemperatureLabels
