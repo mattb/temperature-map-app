@@ -1,3 +1,4 @@
+import codePush from 'react-native-code-push';
 import React, { Component } from 'react';
 import { StyleSheet, Image, TouchableOpacity, View } from 'react-native';
 import TemperatureLabels from './TemperatureLabels';
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,3 +59,8 @@ export default class App extends Component {
     );
   }
 }
+
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME
+};
+export default codePush(codePushOptions)(App);
