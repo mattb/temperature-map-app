@@ -22,7 +22,7 @@ class TemperatureLabels extends Component {
     this.f = c => 32 + parseFloat(c, 10) * 9.0 / 5.0;
     this.format = place => {
       const name = place.name;
-      const temp = `${this.f(place.temp_in_c).toFixed(0)}`;
+      const temp = `${Math.round(this.f(place.temp_in_c))}`;
       if (this.props.displayMode === 'all') {
         return `${name}\n${temp}`;
       }
@@ -88,13 +88,13 @@ class TemperatureLabels extends Component {
             {' '}
             {this.f(this.state.min_in_c).toFixed(0)}
             {' '}
+            average
+            {' '}
+            {this.f(this.state.average_in_c).toFixed(0)}
+            {' '}
             max
             {' '}
             {this.f(this.state.max_in_c).toFixed(0)}
-            {' '}
-            avg
-            {' '}
-            {this.f(this.state.average_in_c).toFixed(0)}
             {'\n'}
             last updated
             {' '}
