@@ -36,6 +36,7 @@ convert $sourceIconName -resize 120x120 $iconPath/appicon-Small-40@3x.png
 convert $sourceIconName -resize 29x29 $iconPath/appicon-Small.png
 convert $sourceIconName -resize 58x58 $iconPath/appicon-Small@2x.png
 convert $sourceIconName -resize 87x87 $iconPath/appicon-Small@3x.png
+convert $sourceIconName -resize 167x167 $iconPath/appicon-Small-83.5@2x.png
 
 cat > "$iconPath/Contents.json" << EOF
 {
@@ -117,7 +118,13 @@ cat > "$iconPath/Contents.json" << EOF
       "scale" : "2x",
       "size" : "29x29"
       ,"filename" : "appicon-Small@2x.png"
-    }
+    },
+    {
+      "idiom": "ipad",
+      "scale": "2x",
+      "size": "83.5x83.5",
+      "filename": "appicon-Small-83.5@2x.png"
+    },
   ],
   "info" : {
     "version" : 1,
