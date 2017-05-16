@@ -32,7 +32,10 @@ class TemperatureLabels extends Component {
       }));
     };
     this.f = c => 32 + parseFloat(c, 10) * 9.0 / 5.0;
-    this.fontSize = () => (this.props.displayMode === 'temp' ? 13 : 10);
+    this.fontSize = () =>
+      Math.round(
+        this.heightScale * (this.props.displayMode === 'temp' ? 13 : 10)
+      );
     this.format = place => {
       const name = place.name;
       const temp = `${Math.round(this.f(place.temp_in_c))}`;
@@ -95,7 +98,7 @@ class TemperatureLabels extends Component {
           >
             <Text
               style={{
-                fontSize: 10,
+                fontSize: 10 * this.widthScale,
                 left: 10,
                 bottom: 10,
                 color: 'rgba(0, 0, 0, 0.7)',
@@ -136,7 +139,7 @@ class TemperatureLabels extends Component {
                     top: this.heightScale * parseInt(place.y, 10) / 2 - offsetY,
                     position: 'absolute',
                     textAlign: 'center',
-                    width: 65
+                    width: 65 * this.widthScale
                   }}
                 >
                   {this.format(place)}
