@@ -1,14 +1,7 @@
 import codePush from 'react-native-code-push';
 import React, { Component } from 'react';
-import { AppState, StyleSheet, TouchableOpacity } from 'react-native';
+import { AppState, TouchableOpacity } from 'react-native';
 import TemperatureLabels from './TemperatureLabels';
-
-const styles = StyleSheet.create({
-  labels: {
-    width: 375,
-    height: 667
-  }
-});
 
 class App extends Component {
   constructor(props) {
@@ -45,7 +38,6 @@ class App extends Component {
     return (
       <TouchableOpacity onPress={this.viewClick} activeOpacity={1}>
         <TemperatureLabels
-          style={styles.labels}
           version={this.state.version}
           displayMode={this.state.displayMode}
         />

@@ -1,29 +1,33 @@
 import React, { Component } from 'react';
-import { StyleSheet, Image, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Image, Text, View } from 'react-native';
 import moment from 'moment';
-
-const stylePropType = require('react-style-proptype');
-
-const styles = StyleSheet.create({
-  map: {
-    width: 375,
-    height: 667,
-    resizeMode: 'cover'
-  }
-});
 
 class TemperatureLabels extends Component {
   constructor(props) {
     super(props);
+
+    const { height, width } = Dimensions.get('window');
+    this.heightScale = height / 667.0;
+    this.widthScale = width / 375.0;
+    console.log(this.heightScale, this.widthScale);
+    this.styles = StyleSheet.create({
+      map: {
+        width,
+        height,
+        resizeMode: 'cover'
+      }
+    });
+
     this.state = {
       dimensions: {}
     };
     this.onLayout = name => event => {
       if (this.state.dimensions[name]) return; // layout was already called
-      const { width, height } = event.nativeEvent.layout;
+      const w = event.nativeEvent.layout.width;
+      const h = event.nativeEvent.layout.height;
       this.setState(state => ({
         dimensions: Object.assign({}, state.dimensions, {
-          [name]: [width, height]
+          [name]: [w, h]
         })
       }));
     };
@@ -82,9 +86,9 @@ class TemperatureLabels extends Component {
   render() {
     if (this.state.places) {
       return (
-        <View style={styles.container}>
+        <View style={this.styles.container}>
           <Image
-            style={styles.map}
+            style={this.styles.map}
             source={{
               uri: this.state.image_url
             }}
@@ -128,8 +132,8 @@ class TemperatureLabels extends Component {
                     color,
                     fontSize: this.fontSize(),
                     fontWeight: 'bold',
-                    left: parseInt(place.x, 10) / 2 - offsetX,
-                    top: parseInt(place.y, 10) / 2 - offsetY,
+                    left: this.widthScale * parseInt(place.x, 10) / 2 - offsetX,
+                    top: this.heightScale * parseInt(place.y, 10) / 2 - offsetY,
                     position: 'absolute',
                     textAlign: 'center',
                     width: 65
@@ -143,11 +147,10 @@ class TemperatureLabels extends Component {
         </View>
       );
     }
-    return <View style={this.props.style} />;
+    return <View />;
   }
 }
 TemperatureLabels.propTypes = {
-  style: stylePropType.isRequired,
   version: React.PropTypes.string,
   displayMode: React.PropTypes.string
 };
