@@ -10,7 +10,17 @@ class App extends Component {
       version: (new Date().getTime() / 1000 / 60).toFixed(0),
       displayMode: 'name'
     };
-
+    const displayModes = ['name', 'temp']; // 'all', 'none'
+    let displayModeIndex = 0;
+    this.viewClick = () => {
+      displayModeIndex = (displayModeIndex + 1) % displayModes.length;
+      this.setState({
+        displayMode: displayModes[displayModeIndex],
+        version: (new Date().getTime() / 1000 / 60).toFixed(0)
+      });
+    };
+  }
+  componentWillMount() {
     AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'active') {
         this.setState({
@@ -24,15 +34,19 @@ class App extends Component {
         version: (new Date().getTime() / 1000 / 60).toFixed(0)
       });
     }, 1000 * 60);
-    const displayModes = ['name', 'temp']; // 'all', 'none'
-    let displayModeIndex = 0;
-    this.viewClick = () => {
-      displayModeIndex = (displayModeIndex + 1) % displayModes.length;
-      this.setState({
-        displayMode: displayModes[displayModeIndex],
-        version: (new Date().getTime() / 1000 / 60).toFixed(0)
-      });
-    };
+    this.watchID = navigator.geolocation.watchPosition(
+      position => {
+        this.setState({
+          currentPosition: Object.assign({}, position.coords, {
+            timestamp: position.timestamp
+          })
+        });
+      },
+      () => {
+        // error
+      },
+      { distanceFilter: 250 }
+    );
   }
   render() {
     return (
@@ -40,6 +54,7 @@ class App extends Component {
         <TemperatureLabels
           version={this.state.version}
           displayMode={this.state.displayMode}
+          currentPosition={this.state.currentPosition}
         />
       </TouchableOpacity>
     );

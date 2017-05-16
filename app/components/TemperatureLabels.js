@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Image, Text, View } from 'react-native';
 import moment from 'moment';
 
+const d3 = require('d3-geo');
+
+const markerGlyph = '❌';
+
 class TemperatureLabels extends Component {
   constructor(props) {
     super(props);
@@ -9,7 +13,6 @@ class TemperatureLabels extends Component {
     const { height, width } = Dimensions.get('window');
     this.heightScale = height / 667.0;
     this.widthScale = width / 375.0;
-    console.log(this.heightScale, this.widthScale);
     this.styles = StyleSheet.create({
       map: {
         width,
@@ -17,9 +20,34 @@ class TemperatureLabels extends Component {
         resizeMode: 'cover'
       }
     });
+    this.locationToXY = coords =>
+      this.state
+        .projection([coords.longitude, coords.latitude])
+        .map(i => Math.round(i));
 
     this.state = {
       dimensions: {}
+    };
+
+    this.updateMarker = position => {
+      this.setState(state => {
+        if (!('places' in state)) {
+          return {};
+        }
+        const xy = this.locationToXY(position);
+        const marker = {
+          name: markerGlyph,
+          latlon: [position.latitude, position.longitude],
+          temp_in_c: '0',
+          x: xy[0],
+          y: xy[1]
+        };
+        const filteredPlaces = state.places.filter(p => p.name !== marker.name);
+        filteredPlaces.push(marker);
+        return {
+          places: filteredPlaces
+        };
+      });
     };
     this.onLayout = name => event => {
       if (this.state.dimensions[name]) return; // layout was already called
@@ -37,6 +65,9 @@ class TemperatureLabels extends Component {
         this.heightScale * (this.props.displayMode === 'temp' ? 13 : 10)
       );
     this.format = place => {
+      if (place.name === markerGlyph) {
+        return place.name;
+      }
       const name = place.name;
       const temp = `${Math.round(this.f(place.temp_in_c))}`;
       if (this.props.displayMode === 'all') {
@@ -66,6 +97,12 @@ class TemperatureLabels extends Component {
     if (this.props.version !== nextProps.version) {
       this.getData();
     }
+    if (
+      this.props.currentPosition.timestamp !==
+      nextProps.currentPosition.timestamp
+    ) {
+      this.updateMarker(nextProps.currentPosition);
+    }
   }
   getData() {
     console.log(
@@ -79,11 +116,20 @@ class TemperatureLabels extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        this.setState({
-          ...data,
-          image_url: `https://tempmap.s3.amazonaws.com/${data.png}`,
-          when: moment(data.timestamp).local().format('MMMM Do YYYY [at] ha')
-        });
+        this.setState(
+          {
+            ...data,
+            image_url: `https://tempmap.s3.amazonaws.com/${data.png}`,
+            when: moment(data.timestamp).local().format('MMMM Do YYYY [at] ha'),
+            projection: d3
+              .geoMercator()
+              .scale(data.d3.scale)
+              .translate(data.d3.translate)
+          },
+          () => {
+            this.updateMarker(this.props.currentPosition);
+          }
+        );
       });
   }
   render() {
@@ -155,11 +201,17 @@ class TemperatureLabels extends Component {
 }
 TemperatureLabels.propTypes = {
   version: React.PropTypes.string,
+  currentPosition: React.PropTypes.shape({
+    latitude: React.PropTypes.number,
+    longitude: React.PropTypes.number,
+    timestamp: React.PropTypes.number
+  }),
   displayMode: React.PropTypes.string
 };
 TemperatureLabels.defaultProps = {
   version: '',
-  displayMode: 'name'
+  displayMode: 'none',
+  currentPosition: {}
 };
 
 export default TemperatureLabels;
