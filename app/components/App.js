@@ -1,6 +1,6 @@
 import codePush from 'react-native-code-push';
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { AppState, StyleSheet, TouchableOpacity } from 'react-native';
 import TemperatureLabels from './TemperatureLabels';
 
 const styles = StyleSheet.create({
@@ -17,6 +17,15 @@ class App extends Component {
       version: (new Date().getTime() / 1000 / 60).toFixed(0),
       displayMode: 'name'
     };
+
+    AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'active') {
+        this.setState({
+          version: (new Date().getTime() / 1000 / 60).toFixed(0)
+        });
+      }
+    });
+
     setInterval(() => {
       this.setState({
         version: (new Date().getTime() / 1000 / 60).toFixed(0)
@@ -46,6 +55,7 @@ class App extends Component {
 }
 
 const codePushOptions = {
-  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME
+  checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
+  installMode: codePush.InstallMode.ON_NEXT_RESUME
 };
 export default codePush(codePushOptions)(App);
