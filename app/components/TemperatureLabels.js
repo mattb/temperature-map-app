@@ -101,20 +101,13 @@ class TemperatureLabels extends Component {
                 padding: 3
               }}
             >
-              min
-              {' '}
+              {'min '}
               {this.f(this.state.min_in_c).toFixed(0)}
-              {' '}
-              average
-              {' '}
+              {'F average '}
               {this.f(this.state.average_in_c).toFixed(0)}
-              {' '}
-              max
-              {' '}
+              {'F max '}
               {this.f(this.state.max_in_c).toFixed(0)}
-              {'\n'}
-              last updated
-              {' '}
+              {'F\nlast updated '}
               {this.state.when}
             </Text>
             {this.state.places.map(place => {
