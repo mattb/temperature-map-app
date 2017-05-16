@@ -14,12 +14,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hour: (new Date().getTime() / 1000 / 60 / 60).toFixed(0),
+      version: (new Date().getTime() / 1000 / 60).toFixed(0),
       displayMode: 'name'
     };
     setInterval(() => {
       this.setState({
-        hour: (new Date().getTime() / 1000 / 60 / 60).toFixed(0)
+        version: (new Date().getTime() / 1000 / 60).toFixed(0)
       });
     }, 1000 * 60);
     const displayModes = ['name', 'temp']; // 'all', 'none'
@@ -28,7 +28,7 @@ class App extends Component {
       displayModeIndex = (displayModeIndex + 1) % displayModes.length;
       this.setState({
         displayMode: displayModes[displayModeIndex],
-        hour: (new Date().getTime() / 1000 / 60 / 60).toFixed(0)
+        version: (new Date().getTime() / 1000 / 60).toFixed(0)
       });
     };
   }
@@ -37,7 +37,7 @@ class App extends Component {
       <TouchableOpacity onPress={this.viewClick} activeOpacity={1}>
         <TemperatureLabels
           style={styles.labels}
-          hour={this.state.hour}
+          version={this.state.version}
           displayMode={this.state.displayMode}
         />
       </TouchableOpacity>

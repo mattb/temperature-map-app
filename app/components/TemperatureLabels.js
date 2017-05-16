@@ -56,15 +56,15 @@ class TemperatureLabels extends Component {
         dimensions: {}
       });
     }
-    if (this.props.hour !== nextProps.hour) {
+    if (this.props.version !== nextProps.version) {
       this.getData();
     }
   }
   getData() {
     console.log(
-      `https://tempmap.s3.amazonaws.com/temps.json?${this.props.hour}`
+      `https://tempmap.s3.amazonaws.com/temps.json?${this.props.version}`
     );
-    fetch(`https://tempmap.s3.amazonaws.com/temps.json?${this.props.hour}`, {
+    fetch(`https://tempmap.s3.amazonaws.com/temps.json?${this.props.version}`, {
       headers: {
         pragma: 'no-cache',
         'cache-control': 'no-cache'
@@ -155,11 +155,11 @@ class TemperatureLabels extends Component {
 }
 TemperatureLabels.propTypes = {
   style: stylePropType.isRequired,
-  hour: React.PropTypes.string,
+  version: React.PropTypes.string,
   displayMode: React.PropTypes.string
 };
 TemperatureLabels.defaultProps = {
-  hour: '',
+  version: '',
   displayMode: 'name'
 };
 
