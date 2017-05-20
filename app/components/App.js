@@ -1,4 +1,5 @@
 import codePush from 'react-native-code-push';
+import DefaultPreference from 'react-native-default-preference';
 import React, { Component } from 'react';
 import { AppState, TouchableOpacity } from 'react-native';
 import TemperatureLabels from './TemperatureLabels';
@@ -10,17 +11,30 @@ class App extends Component {
       version: (new Date().getTime() / 1000 / 60).toFixed(0),
       displayMode: 'name'
     };
+  }
+  componentWillMount() {
     const displayModes = ['name', 'temp']; // 'all', 'none'
     let displayModeIndex = 0;
+
     this.viewClick = () => {
       displayModeIndex = (displayModeIndex + 1) % displayModes.length;
       this.setState({
         displayMode: displayModes[displayModeIndex],
         version: (new Date().getTime() / 1000 / 60).toFixed(0)
       });
+      DefaultPreference.set('display-mode', `${displayModeIndex}`).then(() => {
+        console.log('displayMode set done');
+      });
     };
-  }
-  componentWillMount() {
+
+    DefaultPreference.get('display-mode').then(idx => {
+      if (idx !== undefined) {
+        this.setState({
+          displayMode: displayModes[parseInt(idx, 10)]
+        });
+      }
+    });
+
     AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'active') {
         this.setState({
