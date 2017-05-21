@@ -22,6 +22,9 @@ class TemperatureLabels extends Component {
     const widthScale = dimensions.width / imageSize.width;
     this.scale = Math.max(heightScale, widthScale);
     this.styles = StyleSheet.create({
+      container: {
+        alignItems: 'center'
+      },
       map: {
         width: dimensions.width,
         height: dimensions.height,
@@ -153,7 +156,7 @@ class TemperatureLabels extends Component {
   render() {
     if (this.state.places) {
       return (
-        <View style={this.styles.container}>
+        <View>
           <Image
             style={this.styles.map}
             source={{
@@ -215,7 +218,20 @@ class TemperatureLabels extends Component {
         </View>
       );
     }
-    return <View />;
+    return (
+      <View style={this.styles.container}>
+        <Text
+          style={{
+            fontSize: 36,
+            fontWeight: 'bold',
+            paddingTop: this.screenHeight / 2 - 18,
+            color: 'rgba(0, 0, 0, 0.7)'
+          }}
+        >
+          Loading...
+        </Text>
+      </View>
+    );
   }
 }
 TemperatureLabels.propTypes = {
