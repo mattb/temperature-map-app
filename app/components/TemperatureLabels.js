@@ -6,17 +6,25 @@ const d3 = require('d3-geo');
 
 const markerGlyph = '❌';
 
+const imageSize = {
+  width: 375,
+  height: 667
+};
+
 class TemperatureLabels extends Component {
   constructor(props) {
     super(props);
 
-    const { height, width } = Dimensions.get('window');
-    this.heightScale = height / 667.0;
-    this.widthScale = width / 375.0;
+    const dimensions = Dimensions.get('window');
+    this.screenHeight = dimensions.height;
+    this.screenWidth = dimensions.width;
+    const heightScale = dimensions.height / imageSize.height;
+    const widthScale = dimensions.width / imageSize.width;
+    this.scale = Math.max(heightScale, widthScale);
     this.styles = StyleSheet.create({
       map: {
-        width,
-        height,
+        width: dimensions.width,
+        height: dimensions.height,
         resizeMode: 'cover'
       }
     });
@@ -61,9 +69,7 @@ class TemperatureLabels extends Component {
     };
     this.f = c => 32 + parseFloat(c, 10) * 9.0 / 5.0;
     this.fontSize = () =>
-      Math.round(
-        this.heightScale * (this.props.displayMode === 'temp' ? 13 : 10)
-      );
+      Math.round(this.scale * (this.props.displayMode === 'temp' ? 13 : 10));
     this.format = place => {
       if (place.name === markerGlyph) {
         return place.name;
@@ -83,6 +89,18 @@ class TemperatureLabels extends Component {
         return `${temp}`;
       }
       return '';
+    };
+    this.scaleXY = (x, y, offsetX, offsetY) => {
+      const xx = parseInt(x, 10) / 2;
+      const yy = parseInt(y, 10) / 2;
+      return {
+        left: this.scale * (xx - imageSize.width / 2) +
+          this.screenWidth / 2 -
+          offsetX,
+        top: this.scale * (yy - imageSize.height / 2) +
+          this.screenHeight / 2 -
+          offsetY
+      };
     };
   }
   componentWillMount() {
@@ -144,7 +162,7 @@ class TemperatureLabels extends Component {
           >
             <Text
               style={{
-                fontSize: 10 * this.widthScale,
+                fontSize: 10 * this.scale,
                 left: 10,
                 bottom: 10,
                 color: 'rgba(0, 0, 0, 0.7)',
@@ -176,17 +194,18 @@ class TemperatureLabels extends Component {
                 <Text
                   key={place.name}
                   onLayout={this.onLayout(place.name)}
-                  style={{
-                    backgroundColor: 'rgba(0, 0, 0, 0)',
-                    color,
-                    fontSize: this.fontSize(),
-                    fontWeight: 'bold',
-                    left: this.widthScale * parseInt(place.x, 10) / 2 - offsetX,
-                    top: this.heightScale * parseInt(place.y, 10) / 2 - offsetY,
-                    position: 'absolute',
-                    textAlign: 'center',
-                    width: 65 * this.widthScale
-                  }}
+                  style={Object.assign(
+                    {
+                      backgroundColor: 'rgba(0, 0, 0, 0)',
+                      color,
+                      fontSize: this.fontSize(),
+                      fontWeight: 'bold',
+                      position: 'absolute',
+                      textAlign: 'center',
+                      width: 65 * this.scale
+                    },
+                    this.scaleXY(place.x, place.y, offsetX, offsetY)
+                  )}
                 >
                   {this.format(place)}
                 </Text>
