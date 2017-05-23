@@ -9,18 +9,33 @@ class App extends Component {
     super(props);
     this.state = {
       version: (new Date().getTime() / 1000 / 60).toFixed(0),
-      displayMode: 'name'
+      displayMode: 'name',
+      location: 'temps'
     };
   }
   componentWillMount() {
-    const displayModes = ['name', 'temp']; // 'all', 'none'
+    const displayModes = [
+      { mode: 'name', location: 'temps' },
+      { mode: 'temp', location: 'temps' },
+      { mode: 'name', location: 'northbay' },
+      { mode: 'temp', location: 'northbay' },
+      { mode: 'name', location: 'eastbay' },
+      { mode: 'temp', location: 'eastbay' },
+      { mode: 'name', location: 'southbay' },
+      { mode: 'temp', location: 'southbay' }
+    ];
     let displayModeIndex = 0;
 
     this.viewClick = () => {
       displayModeIndex = (displayModeIndex + 1) % displayModes.length;
       this.setState({
-        displayMode: displayModes[displayModeIndex],
+        displayMode: displayModes[displayModeIndex].mode,
+        location: displayModes[displayModeIndex].location,
         version: (new Date().getTime() / 1000 / 60).toFixed(0)
+      });
+      console.log({
+        displayMode: displayModes[displayModeIndex].mode,
+        location: displayModes[displayModeIndex].location
       });
       DefaultPreference.set('display-mode', `${displayModeIndex}`).then(() => {
         console.log('displayMode set done');
@@ -30,7 +45,8 @@ class App extends Component {
     DefaultPreference.get('display-mode').then(idx => {
       if (idx !== undefined) {
         this.setState({
-          displayMode: displayModes[parseInt(idx, 10)]
+          displayMode: displayModes[displayModeIndex].mode,
+          location: displayModes[displayModeIndex].location
         });
       }
     });
@@ -68,6 +84,7 @@ class App extends Component {
         <TemperatureLabels
           version={this.state.version}
           displayMode={this.state.displayMode}
+          location={this.state.location}
           currentPosition={this.state.currentPosition}
         />
       </TouchableOpacity>

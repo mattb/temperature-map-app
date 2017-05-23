@@ -110,6 +110,14 @@ class TemperatureLabels extends Component {
     this.getData();
   }
   componentWillReceiveProps(nextProps) {
+    if (this.props.location !== nextProps.location) {
+      this.setState({
+        dimensions: {},
+        loading: true
+      });
+      this.getData(nextProps.location);
+      return;
+    }
     if (this.props.displayMode !== nextProps.displayMode) {
       this.setState({
         dimensions: {}
@@ -125,16 +133,19 @@ class TemperatureLabels extends Component {
       this.updateMarker(nextProps.currentPosition);
     }
   }
-  getData() {
+  getData(location) {
     console.log(
-      `https://tempmap.s3.amazonaws.com/temps.json?${this.props.version}`
+      `https://tempmap.s3.amazonaws.com/${location || this.props.location}.json?${this.props.version}`
     );
-    fetch(`https://tempmap.s3.amazonaws.com/temps.json?${this.props.version}`, {
-      headers: {
-        pragma: 'no-cache',
-        'cache-control': 'no-cache'
+    fetch(
+      `https://tempmap.s3.amazonaws.com/${location || this.props.location}.json?${this.props.version}`,
+      {
+        headers: {
+          pragma: 'no-cache',
+          'cache-control': 'no-cache'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState(
@@ -145,7 +156,8 @@ class TemperatureLabels extends Component {
             projection: d3
               .geoMercator()
               .scale(data.d3.scale)
-              .translate(data.d3.translate)
+              .translate(data.d3.translate),
+            loading: false
           },
           () => {
             this.updateMarker(this.props.currentPosition);
@@ -154,7 +166,7 @@ class TemperatureLabels extends Component {
       });
   }
   render() {
-    if (this.state.places) {
+    if (this.state.places && !this.state.loading) {
       return (
         <View>
           <Image
@@ -241,11 +253,13 @@ TemperatureLabels.propTypes = {
     longitude: React.PropTypes.number,
     timestamp: React.PropTypes.number
   }),
-  displayMode: React.PropTypes.string
+  displayMode: React.PropTypes.string,
+  location: React.PropTypes.string
 };
 TemperatureLabels.defaultProps = {
   version: '',
   displayMode: 'none',
+  location: 'sf',
   currentPosition: {}
 };
 
