@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Dimensions, StyleSheet, Image, Text, View } from 'react-native';
 import moment from 'moment';
 
+import Status from './Status';
+
 const d3 = require('d3-geo');
 
 const markerGlyph = '❌';
@@ -175,27 +177,13 @@ class TemperatureLabels extends Component {
               uri: this.state.image_url
             }}
           >
-            <Text
-              style={{
-                fontSize: 10 * this.scale,
-                left: 10,
-                bottom: 10,
-                color: 'rgba(0, 0, 0, 0.7)',
-                backgroundColor: 'rgba(230, 230, 230, 0.7)',
-                position: 'absolute',
-                textAlign: 'left',
-                padding: 3
-              }}
-            >
-              {'min '}
-              {this.f(this.state.min_in_c).toFixed(0)}
-              {'F average '}
-              {this.f(this.state.average_in_c).toFixed(0)}
-              {'F max '}
-              {this.f(this.state.max_in_c).toFixed(0)}
-              {'F\nlast updated '}
-              {this.state.when}
-            </Text>
+            <Status
+              scale={this.scale}
+              min_in_c={this.state.min_in_c}
+              max_in_c={this.state.max_in_c}
+              average_in_c={this.state.average_in_c}
+              when={this.state.when}
+            />
             {this.state.places.map(place => {
               let offsetX = 0;
               let offsetY = 0;
