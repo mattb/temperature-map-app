@@ -152,13 +152,7 @@ class TemperatureLabels extends Component {
       `https://tempmap.s3.amazonaws.com/${location || this.props.location}.json?${this.props.version}`
     );
     fetch(
-      `https://tempmap.s3.amazonaws.com/${location || this.props.location}.json?${this.props.version}`,
-      {
-        headers: {
-          pragma: 'no-cache',
-          'cache-control': 'no-cache'
-        }
-      }
+      `https://tempmap.s3.amazonaws.com/${location || this.props.location}.json?${this.props.version}`
     )
       .then(response => response.json())
       .then(data => {
@@ -186,7 +180,8 @@ class TemperatureLabels extends Component {
           <Image
             style={this.styles.map}
             source={{
-              uri: this.state.image_url
+              uri: this.state.image_url,
+              cache: 'force-cache'
             }}
             defaultSource={this.state.loading_image}
           >
