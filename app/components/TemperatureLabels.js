@@ -13,6 +13,15 @@ const imageSize = {
   height: 667
 };
 
+/* eslint-disable global-require */
+const loadingImages = {
+  temps: require('../images/temps.png'),
+  northbay: require('../images/northbay.png'),
+  eastbay: require('../images/eastbay.png'),
+  southbay: require('../images/southbay.png')
+};
+/* eslint-enable global-require */
+
 class TemperatureLabels extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +48,9 @@ class TemperatureLabels extends Component {
         .map(i => Math.round(i));
 
     this.state = {
-      dimensions: {}
+      loading: true,
+      dimensions: {},
+      loading_image: loadingImages[props.location]
     };
 
     this.updateMarker = position => {
@@ -115,6 +126,7 @@ class TemperatureLabels extends Component {
     if (this.props.location !== nextProps.location) {
       this.setState({
         dimensions: {},
+        loading_image: loadingImages[nextProps.location],
         loading: true
       });
       this.getData(nextProps.location);
@@ -176,6 +188,7 @@ class TemperatureLabels extends Component {
             source={{
               uri: this.state.image_url
             }}
+            defaultSource={this.state.loading_image}
           >
             <Status
               scale={this.scale}
@@ -220,16 +233,7 @@ class TemperatureLabels extends Component {
     }
     return (
       <View style={this.styles.container}>
-        <Text
-          style={{
-            fontSize: 36,
-            fontWeight: 'bold',
-            paddingTop: this.screenHeight / 2 - 18,
-            color: 'rgba(0, 0, 0, 0.7)'
-          }}
-        >
-          Loading...
-        </Text>
+        <Image style={this.styles.map} source={this.state.loading_image} />
       </View>
     );
   }
