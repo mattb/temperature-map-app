@@ -1,7 +1,7 @@
 import codePush from 'react-native-code-push';
 import DefaultPreference from 'react-native-default-preference';
 import React, { Component } from 'react';
-import { AppState, TouchableOpacity } from 'react-native';
+import { ActionSheetIOS, AppState, TouchableOpacity } from 'react-native';
 import TemperatureLabels from './TemperatureLabels';
 
 class App extends Component {
@@ -14,28 +14,33 @@ class App extends Component {
     };
   }
   componentWillMount() {
-    const displayModes = [
-      { mode: 'name', location: 'temps' },
-      { mode: 'temp', location: 'temps' },
-      { mode: 'name', location: 'northbay' },
-      { mode: 'temp', location: 'northbay' },
-      { mode: 'name', location: 'eastbay' },
-      { mode: 'temp', location: 'eastbay' },
-      { mode: 'name', location: 'southbay' },
-      { mode: 'temp', location: 'southbay' }
+    const displayModes = ['name', 'temp'];
+    const locations = [
+      ['San Francisco', 'temps'],
+      ['North Bay', 'northbay'],
+      ['East Bay', 'eastbay'],
+      ['South Bay', 'southbay']
     ];
     let displayModeIndex = 0;
 
-    this.viewClick = () => {
+    this.locationClick = () => {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: locations.map(l => l[0])
+        },
+        buttonIndex => {
+          this.setState({
+            location: locations[buttonIndex][1]
+          });
+        }
+      );
+    };
+
+    this.modeClick = () => {
       displayModeIndex = (displayModeIndex + 1) % displayModes.length;
       this.setState({
-        displayMode: displayModes[displayModeIndex].mode,
-        location: displayModes[displayModeIndex].location,
+        displayMode: displayModes[displayModeIndex],
         version: (new Date().getTime() / 1000 / 60).toFixed(0)
-      });
-      console.log({
-        displayMode: displayModes[displayModeIndex].mode,
-        location: displayModes[displayModeIndex].location
       });
       DefaultPreference.set('display-mode', `${displayModeIndex}`).then(() => {
         console.log('displayMode set done');
@@ -45,8 +50,8 @@ class App extends Component {
     DefaultPreference.get('display-mode').then(idx => {
       if (idx !== undefined) {
         this.setState({
-          displayMode: displayModes[displayModeIndex].mode,
-          location: displayModes[displayModeIndex].location
+          displayMode: displayModes[displayModeIndex],
+          location: 'temps'
         });
       }
     });
@@ -80,12 +85,13 @@ class App extends Component {
   }
   render() {
     return (
-      <TouchableOpacity onPress={this.viewClick} activeOpacity={1}>
+      <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
         <TemperatureLabels
           version={this.state.version}
           displayMode={this.state.displayMode}
           location={this.state.location}
           currentPosition={this.state.currentPosition}
+          onStatusClick={this.locationClick}
         />
       </TouchableOpacity>
     );

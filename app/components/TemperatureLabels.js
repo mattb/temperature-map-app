@@ -14,11 +14,23 @@ const imageSize = {
 };
 
 /* eslint-disable global-require */
-const loadingImages = {
-  temps: require('../images/temps.png'),
-  northbay: require('../images/northbay.png'),
-  eastbay: require('../images/eastbay.png'),
-  southbay: require('../images/southbay.png')
+const placeData = {
+  temps: {
+    loadingImage: require('../images/temps.png'),
+    title: 'San Francisco'
+  },
+  northbay: {
+    loadingImage: require('../images/northbay.png'),
+    title: 'North Bay'
+  },
+  eastbay: {
+    loadingImage: require('../images/eastbay.png'),
+    title: 'East Bay'
+  },
+  southbay: {
+    loadingImage: require('../images/southbay.png'),
+    title: 'South Bay'
+  }
 };
 /* eslint-enable global-require */
 
@@ -50,7 +62,8 @@ class TemperatureLabels extends Component {
     this.state = {
       loading: true,
       dimensions: {},
-      loading_image: loadingImages[props.location]
+      title: placeData[props.location].title,
+      loading_image: placeData[props.location].loadingImage
     };
 
     this.updateMarker = position => {
@@ -126,7 +139,8 @@ class TemperatureLabels extends Component {
     if (this.props.location !== nextProps.location) {
       this.setState({
         dimensions: {},
-        loading_image: loadingImages[nextProps.location],
+        title: placeData[nextProps.location].title,
+        loading_image: placeData[nextProps.location].loadingImage,
         loading: true
       });
       this.getData(nextProps.location);
@@ -186,11 +200,13 @@ class TemperatureLabels extends Component {
             defaultSource={this.state.loading_image}
           >
             <Status
+              title={this.state.title}
               scale={this.scale}
               min_in_c={this.state.min_in_c}
               max_in_c={this.state.max_in_c}
               average_in_c={this.state.average_in_c}
               when={this.state.when}
+              onTouch={this.props.onStatusClick}
             />
             {this.state.places.map(place => {
               let offsetX = 0;
@@ -241,13 +257,15 @@ TemperatureLabels.propTypes = {
     timestamp: React.PropTypes.number
   }),
   displayMode: React.PropTypes.string,
-  location: React.PropTypes.string
+  location: React.PropTypes.string,
+  onStatusClick: React.PropTypes.func
 };
 TemperatureLabels.defaultProps = {
   version: '',
   displayMode: 'none',
   location: 'sf',
-  currentPosition: {}
+  currentPosition: {},
+  onStatusClick: undefined
 };
 
 export default TemperatureLabels;
