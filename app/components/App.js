@@ -18,7 +18,8 @@ class App extends Component {
       ['San Francisco', 'temps'],
       ['North Bay', 'northbay'],
       ['East Bay', 'eastbay'],
-      ['South Bay', 'southbay']
+      ['South Bay', 'southbay'],
+      ['Bay Area', 'bayarea']
     ];
     let displayModeIndex = 0;
 

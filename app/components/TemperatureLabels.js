@@ -30,6 +30,10 @@ const placeData = {
   southbay: {
     loadingImage: require('../images/southbay.png'),
     title: 'South Bay'
+  },
+  bayarea: {
+    loadingImage: require('../images/bayarea.png'),
+    title: 'Bay Area'
   }
 };
 /* eslint-enable global-require */
