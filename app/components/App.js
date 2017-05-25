@@ -1,7 +1,7 @@
 import codePush from 'react-native-code-push';
 import DefaultPreference from 'react-native-default-preference';
 import React, { Component } from 'react';
-import { ActionSheetIOS, AppState, TouchableOpacity } from 'react-native';
+import { View, ActionSheetIOS, AppState, TouchableOpacity } from 'react-native';
 import TemperatureLabels from './TemperatureLabels';
 
 class App extends Component {
@@ -9,8 +9,7 @@ class App extends Component {
     super(props);
     this.state = {
       version: (new Date().getTime() / 1000 / 60).toFixed(0),
-      displayMode: 'name',
-      location: 'temps'
+      displayMode: 'name'
     };
   }
   componentWillMount() {
@@ -29,8 +28,12 @@ class App extends Component {
           options: locations.map(l => l[0])
         },
         buttonIndex => {
+          const location = locations[buttonIndex][1];
           this.setState({
-            location: locations[buttonIndex][1]
+            location
+          });
+          DefaultPreference.set('location', location).then(() => {
+            console.log('location set done', location);
           });
         }
       );
@@ -47,11 +50,20 @@ class App extends Component {
       });
     };
 
+    DefaultPreference.get('location').then(location => {
+      this.setState({
+        location: location || locations[0][1]
+      });
+    });
+
     DefaultPreference.get('display-mode').then(idx => {
       if (idx !== undefined) {
         this.setState({
-          displayMode: displayModes[displayModeIndex],
-          location: 'temps'
+          displayMode: displayModes[idx]
+        });
+      } else {
+        this.setState({
+          displayMode: displayModes[0]
         });
       }
     });
@@ -84,17 +96,20 @@ class App extends Component {
     );
   }
   render() {
-    return (
-      <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
-        <TemperatureLabels
-          version={this.state.version}
-          displayMode={this.state.displayMode}
-          location={this.state.location}
-          currentPosition={this.state.currentPosition}
-          onStatusClick={this.locationClick}
-        />
-      </TouchableOpacity>
-    );
+    if (this.state.location) {
+      return (
+        <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
+          <TemperatureLabels
+            version={this.state.version}
+            displayMode={this.state.displayMode}
+            location={this.state.location}
+            currentPosition={this.state.currentPosition}
+            onStatusClick={this.locationClick}
+          />
+        </TouchableOpacity>
+      );
+    }
+    return <View />;
   }
 }
 
