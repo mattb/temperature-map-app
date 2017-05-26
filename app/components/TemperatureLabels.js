@@ -82,17 +82,6 @@ class TemperatureLabels extends Component {
       });
     };
 
-    this.onLayout = name => event => {
-      if (this.state.dimensions[name]) return; // layout was already called
-      const w = event.nativeEvent.layout.width;
-      const h = event.nativeEvent.layout.height;
-      this.setState(state => ({
-        dimensions: Object.assign({}, state.dimensions, {
-          [name]: [w, h]
-        })
-      }));
-    };
-
     this.formatTemperature = c => {
       if (this.props.temperatureMode === 'F') {
         return 32 + parseFloat(c, 10) * 9.0 / 5.0;
@@ -127,7 +116,12 @@ class TemperatureLabels extends Component {
       return '';
     };
 
-    this.scaleXY = (x, y, offsetX, offsetY) => {
+    const wrapperWidth = 200;
+    const wrapperHeight = 100;
+
+    this.scaleXY = (x, y) => {
+      const offsetX = wrapperWidth / 2;
+      const offsetY = wrapperHeight / 2;
       const xx = parseInt(x, 10) / 2;
       const yy = parseInt(y, 10) / 2;
       return {
@@ -141,12 +135,20 @@ class TemperatureLabels extends Component {
     };
 
     this.styles = StyleSheet.create({
+      textWrapper: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute',
+        width: wrapperWidth,
+        height: wrapperHeight
+      },
       text: {
         backgroundColor: 'rgba(0, 0, 0, 0)',
         fontWeight: 'bold',
-        position: 'absolute',
         textAlign: 'center',
-        width: 65 * this.scale
+        width: 65 * this.scale,
+        color: 'black'
       },
       container: {
         alignItems: 'center'
@@ -236,35 +238,27 @@ class TemperatureLabels extends Component {
               onTouch={this.props.onStatusClick}
             />
             {this.state.places.map(place => {
-              let offsetX;
-              let offsetY;
-              let color;
               const opacity = place.isMarker ? 0.6 : 0.8;
-              if (this.state.dimensions[place.name]) {
-                offsetX = this.state.dimensions[place.name][0] / 2;
-                offsetY = this.state.dimensions[place.name][1] / 2;
-                color = 'rgba(0, 0, 0, 1)';
-              } else {
-                offsetX = 0;
-                offsetY = 0;
-                color = 'rgba(0, 0, 0, 0)';
-              }
               return (
-                <Text
+                <View
                   key={place.name}
-                  onLayout={this.onLayout(place.name)}
                   style={[
-                    this.styles.text,
-                    {
-                      color,
-                      opacity,
-                      fontSize: this.fontSize()
-                    },
-                    this.scaleXY(place.x, place.y, offsetX, offsetY)
+                    this.styles.textWrapper,
+                    this.scaleXY(place.x, place.y)
                   ]}
                 >
-                  {this.format(place)}
-                </Text>
+                  <Text
+                    style={[
+                      this.styles.text,
+                      {
+                        opacity,
+                        fontSize: this.fontSize()
+                      }
+                    ]}
+                  >
+                    {this.format(place)}
+                  </Text>
+                </View>
               );
             })}
           </Image>
