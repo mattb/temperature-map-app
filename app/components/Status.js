@@ -1,8 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const f = c => 32 + parseFloat(c, 10) * 9.0 / 5.0;
-
 const styles = StyleSheet.create({
   box: {
     left: 10,
@@ -19,6 +17,7 @@ const styles = StyleSheet.create({
 });
 
 const Status = ({
+  formatTemperature,
   onTouch,
   title,
   scale,
@@ -38,12 +37,12 @@ const Status = ({
     >
       {title}
       {'\nmin '}
-      {f(min_in_c).toFixed(0)}
-      {'F average '}
-      {f(average_in_c).toFixed(0)}
-      {'F max '}
-      {f(max_in_c).toFixed(0)}
-      {'F\nlast updated '}
+      {formatTemperature(min_in_c)}
+      {' average '}
+      {formatTemperature(average_in_c)}
+      {' max '}
+      {formatTemperature(max_in_c)}
+      {'\nlast updated '}
       {when}
     </Text>
   </TouchableOpacity>
@@ -56,7 +55,8 @@ Status.propTypes = {
   average_in_c: React.PropTypes.number.isRequired,
   max_in_c: React.PropTypes.string.isRequired,
   when: React.PropTypes.string.isRequired,
-  onTouch: React.PropTypes.func
+  onTouch: React.PropTypes.func,
+  formatTemperature: React.PropTypes.func.isRequired
 };
 
 Status.defaultProps = {

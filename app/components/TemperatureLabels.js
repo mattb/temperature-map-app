@@ -48,27 +48,17 @@ class TemperatureLabels extends Component {
     const heightScale = dimensions.height / imageSize.height;
     const widthScale = dimensions.width / imageSize.width;
     this.scale = Math.max(heightScale, widthScale);
-    this.styles = StyleSheet.create({
-      container: {
-        alignItems: 'center'
-      },
-      map: {
-        width: dimensions.width,
-        height: dimensions.height,
-        resizeMode: 'cover'
-      }
-    });
-    this.locationToXY = coords =>
-      this.state
-        .projection([coords.longitude, coords.latitude])
-        .map(i => Math.round(i));
-
     this.state = {
       loading: true,
       dimensions: {},
       title: placeData[props.location].title,
       loading_image: placeData[props.location].loadingImage
     };
+
+    this.locationToXY = coords =>
+      this.state
+        .projection([coords.longitude, coords.latitude])
+        .map(i => Math.round(i));
 
     this.updateMarker = position => {
       this.setState(state => {
@@ -78,18 +68,20 @@ class TemperatureLabels extends Component {
         const xy = this.locationToXY(position);
         const marker = {
           name: markerGlyph,
+          isMarker: true,
           latlon: [position.latitude, position.longitude],
           temp_in_c: '0',
           x: xy[0],
           y: xy[1]
         };
-        const filteredPlaces = state.places.filter(p => p.name !== marker.name);
-        filteredPlaces.push(marker);
+        const filteredPlaces = state.places.filter(p => !p.isMarker);
+        filteredPlaces.unshift(marker);
         return {
           places: filteredPlaces
         };
       });
     };
+
     this.onLayout = name => event => {
       if (this.state.dimensions[name]) return; // layout was already called
       const w = event.nativeEvent.layout.width;
@@ -100,15 +92,26 @@ class TemperatureLabels extends Component {
         })
       }));
     };
-    this.f = c => 32 + parseFloat(c, 10) * 9.0 / 5.0;
+
+    this.formatTemperature = c => {
+      if (this.props.temperatureMode === 'F') {
+        return 32 + parseFloat(c, 10) * 9.0 / 5.0;
+      }
+      return parseFloat(c, 10);
+    };
+
+    this.formatTemperatureWithUnit = input =>
+      `${this.formatTemperature(input).toFixed(0)}${this.props.temperatureMode}`;
+
     this.fontSize = () =>
       Math.round(this.scale * (this.props.displayMode === 'temp' ? 13 : 10));
+
     this.format = place => {
-      if (place.name === markerGlyph) {
+      if (place.isMarker) {
         return place.name;
       }
       const name = place.name;
-      const temp = `${Math.round(this.f(place.temp_in_c))}`;
+      const temp = `${Math.round(this.formatTemperature(place.temp_in_c))}`;
       if (this.props.displayMode === 'all') {
         return `${name}\n${temp}`;
       }
@@ -123,6 +126,7 @@ class TemperatureLabels extends Component {
       }
       return '';
     };
+
     this.scaleXY = (x, y, offsetX, offsetY) => {
       const xx = parseInt(x, 10) / 2;
       const yy = parseInt(y, 10) / 2;
@@ -135,6 +139,24 @@ class TemperatureLabels extends Component {
           offsetY
       };
     };
+
+    this.styles = StyleSheet.create({
+      text: {
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        fontWeight: 'bold',
+        position: 'absolute',
+        textAlign: 'center',
+        width: 65 * this.scale
+      },
+      container: {
+        alignItems: 'center'
+      },
+      map: {
+        width: dimensions.width,
+        height: dimensions.height,
+        resizeMode: 'cover'
+      }
+    });
   }
   componentWillMount() {
     this.getData();
@@ -204,6 +226,7 @@ class TemperatureLabels extends Component {
             defaultSource={this.state.loading_image}
           >
             <Status
+              formatTemperature={this.formatTemperatureWithUnit}
               title={this.state.title}
               scale={this.scale}
               min_in_c={this.state.min_in_c}
@@ -213,30 +236,30 @@ class TemperatureLabels extends Component {
               onTouch={this.props.onStatusClick}
             />
             {this.state.places.map(place => {
-              let offsetX = 0;
-              let offsetY = 0;
-              let color = 'rgba(0, 0, 0, 0)';
+              let offsetX;
+              let offsetY;
+              let color;
               if (this.state.dimensions[place.name]) {
                 offsetX = this.state.dimensions[place.name][0] / 2;
                 offsetY = this.state.dimensions[place.name][1] / 2;
                 color = 'rgba(0, 0, 0, 0.6)';
+              } else {
+                offsetX = 0;
+                offsetY = 0;
+                color = 'rgba(0, 0, 0, 0)';
               }
               return (
                 <Text
                   key={place.name}
                   onLayout={this.onLayout(place.name)}
-                  style={Object.assign(
+                  style={[
+                    this.styles.text,
                     {
-                      backgroundColor: 'rgba(0, 0, 0, 0)',
                       color,
-                      fontSize: this.fontSize(),
-                      fontWeight: 'bold',
-                      position: 'absolute',
-                      textAlign: 'center',
-                      width: 65 * this.scale
+                      fontSize: this.fontSize()
                     },
                     this.scaleXY(place.x, place.y, offsetX, offsetY)
-                  )}
+                  ]}
                 >
                   {this.format(place)}
                 </Text>
@@ -262,11 +285,13 @@ TemperatureLabels.propTypes = {
   }),
   displayMode: React.PropTypes.string,
   location: React.PropTypes.string,
+  temperatureMode: React.PropTypes.string,
   onStatusClick: React.PropTypes.func
 };
 TemperatureLabels.defaultProps = {
   version: '',
-  displayMode: 'none',
+  displayMode: 'temps',
+  temperatureMode: 'F',
   location: 'sf',
   currentPosition: {},
   onStatusClick: undefined

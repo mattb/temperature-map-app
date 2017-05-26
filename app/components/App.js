@@ -3,13 +3,15 @@ import DefaultPreference from 'react-native-default-preference';
 import React, { Component } from 'react';
 import { View, ActionSheetIOS, AppState, TouchableOpacity } from 'react-native';
 import TemperatureLabels from './TemperatureLabels';
+import Settings from './Settings';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       version: (new Date().getTime() / 1000 / 60).toFixed(0),
-      displayMode: 'name'
+      displayMode: 'name',
+      temperatureMode: 'F'
     };
   }
   componentWillMount() {
@@ -22,6 +24,26 @@ class App extends Component {
       ['Bay Area', 'bayarea']
     ];
     let displayModeIndex = 0;
+
+    this.settings = () => {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: ['Temperatures in C', 'Temperatures in F']
+        },
+        buttonIndex => {
+          const temperatureMode = buttonIndex === 0 ? 'C' : 'F';
+          this.setState({
+            temperatureMode
+          });
+          DefaultPreference.set(
+            'temperature-mode',
+            temperatureMode
+          ).then(() => {
+            console.log('temperatureMode set done', temperatureMode);
+          });
+        }
+      );
+    };
 
     this.locationClick = () => {
       ActionSheetIOS.showActionSheetWithOptions(
@@ -50,6 +72,12 @@ class App extends Component {
         console.log('displayMode set done');
       });
     };
+
+    DefaultPreference.get('temperature-mode').then(temperatureMode => {
+      this.setState({
+        temperatureMode: temperatureMode || 'F'
+      });
+    });
 
     DefaultPreference.get('location').then(location => {
       this.setState({
@@ -103,10 +131,12 @@ class App extends Component {
           <TemperatureLabels
             version={this.state.version}
             displayMode={this.state.displayMode}
+            temperatureMode={this.state.temperatureMode}
             location={this.state.location}
             currentPosition={this.state.currentPosition}
             onStatusClick={this.locationClick}
           />
+          <Settings onTouch={this.settings} />
         </TouchableOpacity>
       );
     }
