@@ -6,7 +6,7 @@ import Status from './Status';
 
 const d3 = require('d3-geo');
 
-const markerGlyph = '❌';
+const markerGlyph = '🔵';
 
 const imageSize = {
   width: 375,
@@ -239,10 +239,11 @@ class TemperatureLabels extends Component {
               let offsetX;
               let offsetY;
               let color;
+              const opacity = place.isMarker ? 0.6 : 0.8;
               if (this.state.dimensions[place.name]) {
                 offsetX = this.state.dimensions[place.name][0] / 2;
                 offsetY = this.state.dimensions[place.name][1] / 2;
-                color = 'rgba(0, 0, 0, 0.6)';
+                color = 'rgba(0, 0, 0, 1)';
               } else {
                 offsetX = 0;
                 offsetY = 0;
@@ -256,6 +257,7 @@ class TemperatureLabels extends Component {
                     this.styles.text,
                     {
                       color,
+                      opacity,
                       fontSize: this.fontSize()
                     },
                     this.scaleXY(place.x, place.y, offsetX, offsetY)
