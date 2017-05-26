@@ -290,7 +290,7 @@ TemperatureLabels.propTypes = {
 };
 TemperatureLabels.defaultProps = {
   version: '',
-  displayMode: 'temps',
+  displayMode: 'none',
   temperatureMode: 'F',
   location: 'sf',
   currentPosition: {},
