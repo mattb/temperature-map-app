@@ -252,7 +252,7 @@ class TemperatureLabels extends Component {
                       this.styles.text,
                       {
                         opacity,
-                        fontSize: this.fontSize()
+                        fontSize: place.isMarker ? 12 : this.fontSize()
                       }
                     ]}
                   >

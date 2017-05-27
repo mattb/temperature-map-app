@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { Component } from 'react';
 import codePush from 'react-native-code-push';
 import MainScreen from './MainScreen';
 
-const App = () => <MainScreen />;
+class App extends Component {
+  render() {
+    return <MainScreen />;
+  }
+}
 
 const codePushOptions = {
   checkFrequency: codePush.CheckFrequency.ON_APP_RESUME,
