@@ -27,9 +27,13 @@ class MainScreen extends Component {
     this.settingsClick = () => {
       ActionSheetIOS.showActionSheetWithOptions(
         {
-          options: ['Temperatures in C', 'Temperatures in F']
+          options: ['Temperatures in C', 'Temperatures in F', 'Cancel'],
+          cancelButtonIndex: 2
         },
         buttonIndex => {
+          if (buttonIndex === 2) {
+            return;
+          }
           const temperatureMode = buttonIndex === 0 ? 'C' : 'F';
           this.setState({
             temperatureMode
@@ -45,11 +49,17 @@ class MainScreen extends Component {
     };
 
     this.locationClick = () => {
+      const options = locations.map(l => l[0]);
+      options.push('Cancel');
       ActionSheetIOS.showActionSheetWithOptions(
         {
-          options: locations.map(l => l[0])
+          options,
+          cancelButtonIndex: locations.length
         },
         buttonIndex => {
+          if (buttonIndex === locations.length) {
+            return;
+          }
           const location = locations[buttonIndex][1];
           this.setState({
             location
