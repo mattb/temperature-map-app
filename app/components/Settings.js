@@ -1,27 +1,29 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
+import SvgUri from 'react-native-svg-uri';
+
+const gear = require('../images/settings.svg');
 
 const styles = StyleSheet.create({
   box: {
     right: 10,
     bottom: 10,
-    backgroundColor: 'rgba(230, 230, 230, 0.7)',
+    backgroundColor: 'rgba(230, 230, 230, 1.0)',
     position: 'absolute',
-    padding: 3,
-    borderRadius: 5
+    paddingLeft: 2,
+    paddingRight: 2,
+    paddingTop: 4,
+    borderRadius: 5,
+    opacity: 0.7
   },
-  label: {
-    color: 'rgba(0, 0, 0, 0.7)',
-    textAlign: 'center',
-    fontSize: 15
+  gear: {
+    opacity: 0.8
   }
 });
 
 const Settings = ({ onTouch }) => (
   <TouchableOpacity onPress={onTouch} style={styles.box}>
-    <Text style={[styles.label]}>
-      ⚙️
-    </Text>
+    <SvgUri style={styles.gear} width="20" height="20" source={gear} />
   </TouchableOpacity>
 );
 

@@ -3,6 +3,7 @@ package com.marine;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.SvgPackage;
 import com.reactlibrary.RNDefaultPreferencePackage;
 import com.microsoft.codepush.react.CodePush;
 import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SvgPackage(),
             new RNDefaultPreferencePackage(),
             new CodePush(null, getApplicationContext(), BuildConfig.DEBUG),
             new ReactNativeConfigPackage()
