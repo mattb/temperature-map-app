@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet, Image, Text, View } from 'react-native';
 import moment from 'moment';
 
 import Status from './Status';
+import Bouncing from './Bouncing';
 
 const d3 = require('d3-geo');
 
@@ -227,16 +228,18 @@ class TemperatureLabels extends Component {
             }}
             defaultSource={this.state.loading_image}
           >
-            <Status
-              formatTemperature={this.formatTemperatureWithUnit}
-              title={this.state.title}
-              scale={this.scale}
-              min_in_c={this.state.min_in_c}
-              max_in_c={this.state.max_in_c}
-              average_in_c={this.state.average_in_c}
-              when={this.state.when}
-              onTouch={this.props.onStatusClick}
-            />
+            <Bouncing configName="Status">
+              <Status
+                formatTemperature={this.formatTemperatureWithUnit}
+                title={this.state.title}
+                scale={this.scale}
+                min_in_c={this.state.min_in_c}
+                max_in_c={this.state.max_in_c}
+                average_in_c={this.state.average_in_c}
+                when={this.state.when}
+                onTouch={this.props.onStatusClick}
+              />
+            </Bouncing>
             {this.state.places.map(place => {
               const opacity = place.isMarker ? 0.6 : 0.8;
               return (
