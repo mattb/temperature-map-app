@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 
 const Settings = ({ onTouch }) => (
   <TouchableOpacity onPress={onTouch} style={styles.box}>
-    <SvgUri style={styles.gear} width="20" height="20" source={gear} />
+    <SvgUri style={styles.gear} width="25" height="25" source={gear} />
   </TouchableOpacity>
 );
 
