@@ -18,7 +18,6 @@ class MainScreen extends Component {
     super(props);
     this.state = {
       version: (new Date().getTime() / 1000 / 60).toFixed(0),
-      displayMode: 'name',
       temperatureMode: 'F'
     };
   }
@@ -89,7 +88,6 @@ class MainScreen extends Component {
       displayModeIndex = (displayModeIndex + 1) % displayModes.length;
       this.props.setDisplayMode(displayModes[displayModeIndex]);
       this.setState({
-        displayMode: displayModes[displayModeIndex],
         version: (new Date().getTime() / 1000 / 60).toFixed(0)
       });
       DefaultPreference.set('display-mode', `${displayModeIndex}`).then(() => {
@@ -109,18 +107,6 @@ class MainScreen extends Component {
       });
     });
 
-    DefaultPreference.get('display-mode').then(idx => {
-      if (idx !== undefined) {
-        this.setState({
-          displayMode: displayModes[idx]
-        });
-      } else {
-        this.setState({
-          displayMode: displayModes[0]
-        });
-      }
-    });
-
     AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'active') {
         this.setState({
@@ -136,9 +122,7 @@ class MainScreen extends Component {
     }, 1000 * 60);
     this.watchID = navigator.geolocation.watchPosition(
       position => this.props.setMarker(position.coords, position.timestamp),
-      () => {
-        // error
-      },
+      () => {}, // error
       { distanceFilter: 250 }
     );
   }
@@ -149,7 +133,7 @@ class MainScreen extends Component {
         <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
           <TemperatureLabels
             version={this.state.version}
-            displayMode={this.state.displayMode}
+            displayMode={this.props.displayMode}
             temperatureMode={this.state.temperatureMode}
             location={this.state.location}
             currentPosition={this.props.currentPosition}
@@ -177,7 +161,8 @@ MainScreen.propTypes = {
   dimensions: React.PropTypes.shape({
     height: React.PropTypes.number,
     width: React.PropTypes.number
-  })
+  }),
+  displayMode: React.PropTypes.string.isRequired
 };
 MainScreen.defaultProps = {
   dimensions: {},
@@ -186,9 +171,11 @@ MainScreen.defaultProps = {
 
 export default connect(
   state => ({
-    test: map.selectors.location(state),
     currentPosition: map.selectors.currentPosition(state),
-    dimensions: settings.selectors.dimensions(state)
+    displayMode: settings.selectors.displayMode(state),
+    dimensions: settings.selectors.dimensions(state),
+    scale: settings.selectors.scale(state),
+    formatCelsiusTemperature: settings.selectors.formatCelsiusTemperature(state)
   }),
   dispatch => ({
     updateDimensions: () => dispatch(settings.actions.updateDimensions()),

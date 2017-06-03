@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native';
+import { createSelector } from 'reselect';
 import { createActions, handleActions } from 'redux-actions';
 
 const actions = createActions({
@@ -30,13 +31,45 @@ const reducer = handleActions(
   },
   {
     unit: 'F',
-    displayMode: 'name'
+    displayMode: 'name',
+    dimensions: {
+      width: 1,
+      height: 1
+    },
+    imageSize: {
+      width: 375,
+      height: 667
+    }
   }
 );
 
 const selectors = {
   dimensions: state => state.settings.dimensions,
-  displayMode: state => state.settings.displayMode
+  displayMode: state => state.settings.displayMode,
+  scale: createSelector(
+    state => state.settings.dimensions,
+    state => state.settings.imageSize,
+    (dimensions, imageSize) => {
+      const heightScale = dimensions.height / imageSize.height;
+      const widthScale = dimensions.width / imageSize.width;
+      return Math.max(heightScale, widthScale);
+    }
+  ),
+  formatCelsiusTemperature: createSelector(
+    state => state.settings.unit,
+    unit => (c, label = false) => {
+      let value;
+      if (unit === 'F') {
+        value = 32 + parseFloat(c, 10) * 9.0 / 5.0;
+      } else {
+        value = parseFloat(c, 10);
+      }
+      if (label) {
+        return `${Math.round(value)}${unit}`;
+      }
+      return `${Math.round(value)}`;
+    }
+  )
 };
 
 export default {
