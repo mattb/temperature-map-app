@@ -1,8 +1,10 @@
 import DefaultPreference from 'react-native-default-preference';
+import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import { View, ActionSheetIOS, AppState, TouchableOpacity } from 'react-native';
 import TemperatureLabels from './TemperatureLabels';
 import Settings from './Settings';
+import map from '../redux/map';
 
 class MainScreen extends Component {
   constructor(props) {
@@ -61,6 +63,7 @@ class MainScreen extends Component {
             return;
           }
           const location = locations[buttonIndex][1];
+          this.props.setLocation(location);
           this.setState({
             location
           });
@@ -153,4 +156,15 @@ class MainScreen extends Component {
   }
 }
 
-export default MainScreen;
+MainScreen.propTypes = {
+  setLocation: React.PropTypes.func.isRequired
+};
+
+export default connect(
+  state => ({
+    test: map.selectors.location(state)
+  }),
+  dispatch => ({
+    setLocation: l => dispatch(map.actions.setLocation(l))
+  })
+)(MainScreen);

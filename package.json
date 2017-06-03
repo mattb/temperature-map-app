@@ -20,7 +20,14 @@
     "react-native-config": "^0.4.2",
     "react-native-default-preference": "^1.1.1",
     "react-native-svg-uri": "^1.2.0",
-    "react-style-proptype": "^3.0.0"
+    "react-redux": "^5.0.5",
+    "react-style-proptype": "^3.0.0",
+    "redux": "^3.6.0",
+    "redux-actions": "^2.0.3",
+    "redux-devtools-extension": "^2.13.2",
+    "redux-persist": "^4.8.0",
+    "redux-thunk": "^2.2.0",
+    "reselect": "^3.0.1"
   },
   "devDependencies": {
     "babel-jest": "20.0.3",

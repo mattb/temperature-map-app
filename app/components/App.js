@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import codePush from 'react-native-code-push';
+import { Provider } from 'react-redux';
+
 import MainScreen from './MainScreen';
+import configureStore from '../redux/configureStore';
+
+const store = configureStore();
 
 class App extends Component {
   render() {
-    return <MainScreen />;
+    return (
+      <Provider store={store}>
+        <MainScreen />
+      </Provider>
+    );
   }
 }
 
