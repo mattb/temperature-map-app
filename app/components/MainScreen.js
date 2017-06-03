@@ -1,10 +1,17 @@
 import DefaultPreference from 'react-native-default-preference';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
-import { View, ActionSheetIOS, AppState, TouchableOpacity } from 'react-native';
+import {
+  View,
+  ActionSheetIOS,
+  AppState,
+  TouchableOpacity,
+  Dimensions
+} from 'react-native';
 import TemperatureLabels from './TemperatureLabels';
 import Settings from './Settings';
 import map from '../redux/map';
+import settings from '../redux/settings';
 
 class MainScreen extends Component {
   constructor(props) {
@@ -16,6 +23,9 @@ class MainScreen extends Component {
     };
   }
   componentWillMount() {
+    this.props.updateDimensions();
+    Dimensions.addEventListener('change', this.props.updateDimensions);
+
     const displayModes = ['name', 'temp'];
     const locations = [
       ['San Francisco', 'temps'],
@@ -37,6 +47,7 @@ class MainScreen extends Component {
             return;
           }
           const temperatureMode = buttonIndex === 0 ? 'C' : 'F';
+          this.props.setUnit(temperatureMode);
           this.setState({
             temperatureMode
           });
@@ -76,6 +87,7 @@ class MainScreen extends Component {
 
     this.modeClick = () => {
       displayModeIndex = (displayModeIndex + 1) % displayModes.length;
+      this.props.setDisplayMode(displayModes[displayModeIndex]);
       this.setState({
         displayMode: displayModes[displayModeIndex],
         version: (new Date().getTime() / 1000 / 60).toFixed(0)
@@ -123,13 +135,7 @@ class MainScreen extends Component {
       });
     }, 1000 * 60);
     this.watchID = navigator.geolocation.watchPosition(
-      position => {
-        this.setState({
-          currentPosition: Object.assign({}, position.coords, {
-            timestamp: position.timestamp
-          })
-        });
-      },
+      position => this.props.setMarker(position.coords, position.timestamp),
       () => {
         // error
       },
@@ -137,6 +143,7 @@ class MainScreen extends Component {
     );
   }
   render() {
+    console.log('dimensions', this.props.dimensions);
     if (this.state.location) {
       return (
         <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
@@ -145,7 +152,7 @@ class MainScreen extends Component {
             displayMode={this.state.displayMode}
             temperatureMode={this.state.temperatureMode}
             location={this.state.location}
-            currentPosition={this.state.currentPosition}
+            currentPosition={this.props.currentPosition}
             onStatusClick={this.locationClick}
           />
           <Settings onTouch={this.settingsClick} />
@@ -157,14 +164,38 @@ class MainScreen extends Component {
 }
 
 MainScreen.propTypes = {
-  setLocation: React.PropTypes.func.isRequired
+  setLocation: React.PropTypes.func.isRequired,
+  setMarker: React.PropTypes.func.isRequired,
+  setUnit: React.PropTypes.func.isRequired,
+  setDisplayMode: React.PropTypes.func.isRequired,
+  updateDimensions: React.PropTypes.func.isRequired,
+  currentPosition: React.PropTypes.shape({
+    longitude: React.PropTypes.number,
+    latitude: React.PropTypes.number,
+    timestamp: React.PropTypes.number
+  }),
+  dimensions: React.PropTypes.shape({
+    height: React.PropTypes.number,
+    width: React.PropTypes.number
+  })
+};
+MainScreen.defaultProps = {
+  dimensions: {},
+  currentPosition: {}
 };
 
 export default connect(
   state => ({
-    test: map.selectors.location(state)
+    test: map.selectors.location(state),
+    currentPosition: map.selectors.currentPosition(state),
+    dimensions: settings.selectors.dimensions(state)
   }),
   dispatch => ({
-    setLocation: l => dispatch(map.actions.setLocation(l))
+    updateDimensions: () => dispatch(settings.actions.updateDimensions()),
+    setUnit: unit => dispatch(settings.actions.setUnit(unit)),
+    setDisplayMode: mode => dispatch(settings.actions.setDisplayMode(mode)),
+    setLocation: l => dispatch(map.actions.setLocation(l)),
+    setMarker: (coords, timestamp) =>
+      dispatch(map.actions.setMarker(coords, timestamp))
   })
 )(MainScreen);
