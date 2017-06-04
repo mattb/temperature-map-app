@@ -18,6 +18,7 @@
       "single"
     ],
     "react/jsx-filename-extension": "off",
+    "react/jsx-wrap-multilines": "off",
     "react/prefer-stateless-function": "off",
     "semi": [
       2,

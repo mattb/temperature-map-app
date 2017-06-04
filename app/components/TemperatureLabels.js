@@ -91,7 +91,8 @@ class TemperatureLabels extends Component {
     };
 
     this.formatTemperatureWithUnit = input =>
-      `${this.formatTemperature(input).toFixed(0)}${this.props.temperatureMode}`;
+      `${this.formatTemperature(input).toFixed(0)}${this.props
+        .temperatureMode}`;
 
     this.fontSize = () =>
       Math.round(this.scale * (this.props.displayMode === 'temp' ? 13 : 10));
@@ -126,12 +127,14 @@ class TemperatureLabels extends Component {
       const xx = parseInt(x, 10) / 2;
       const yy = parseInt(y, 10) / 2;
       return {
-        left: this.scale * (xx - imageSize.width / 2) +
-          this.screenWidth / 2 -
-          offsetX,
-        top: this.scale * (yy - imageSize.height / 2) +
-          this.screenHeight / 2 -
-          offsetY
+        left:
+          this.scale * (xx - imageSize.width / 2) +
+            this.screenWidth / 2 -
+            offsetX,
+        top:
+          this.scale * (yy - imageSize.height / 2) +
+            this.screenHeight / 2 -
+            offsetY
       };
     };
 
@@ -192,10 +195,12 @@ class TemperatureLabels extends Component {
   }
   getData(location) {
     console.log(
-      `https://tempmap.s3.amazonaws.com/${location || this.props.location}.json?${this.props.version}`
+      `https://tempmap.s3.amazonaws.com/${location ||
+        this.props.location}.json?${this.props.version}`
     );
     fetch(
-      `https://tempmap.s3.amazonaws.com/${location || this.props.location}.json?${this.props.version}`
+      `https://tempmap.s3.amazonaws.com/${location ||
+        this.props.location}.json?${this.props.version}`
     )
       .then(response => response.json())
       .then(data => {

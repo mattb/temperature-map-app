@@ -21,11 +21,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const Settings = ({ onTouch }) => (
+const Settings = ({ onTouch }) =>
   <TouchableOpacity onPress={onTouch} style={styles.box}>
     <SvgUri style={styles.gear} width="25" height="25" source={gear} />
-  </TouchableOpacity>
-);
+  </TouchableOpacity>;
 
 Settings.propTypes = {
   onTouch: React.PropTypes.func

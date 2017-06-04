@@ -25,7 +25,7 @@ const Status = ({
   average_in_c,
   max_in_c,
   when
-}) => (
+}) =>
   <TouchableOpacity onPress={onTouch} style={styles.box}>
     <Text
       style={[
@@ -45,8 +45,7 @@ const Status = ({
       {'\nlast updated '}
       {when}
     </Text>
-  </TouchableOpacity>
-);
+  </TouchableOpacity>;
 
 Status.propTypes = {
   title: React.PropTypes.string.isRequired,
