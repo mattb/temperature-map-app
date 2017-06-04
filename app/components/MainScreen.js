@@ -134,7 +134,7 @@ class MainScreen extends Component {
           <TemperatureLabels
             version={this.state.version}
             displayMode={this.props.displayMode}
-            temperatureMode={this.state.temperatureMode}
+            formatTemperature={this.props.formatCelsiusTemperature}
             location={this.state.location}
             currentPosition={this.props.currentPosition}
             onStatusClick={this.locationClick}
@@ -153,6 +153,7 @@ MainScreen.propTypes = {
   setUnit: React.PropTypes.func.isRequired,
   setDisplayMode: React.PropTypes.func.isRequired,
   updateDimensions: React.PropTypes.func.isRequired,
+  formatCelsiusTemperature: React.PropTypes.func.isRequired,
   currentPosition: React.PropTypes.shape({
     longitude: React.PropTypes.number,
     latitude: React.PropTypes.number,

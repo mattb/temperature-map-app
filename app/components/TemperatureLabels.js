@@ -56,6 +56,8 @@ class TemperatureLabels extends Component {
       loading_image: placeData[props.location].loadingImage
     };
 
+    this.formatTemperatureWithUnit = c => this.props.formatTemperature(c, true);
+
     this.locationToXY = coords =>
       this.state
         .projection([coords.longitude, coords.latitude])
@@ -83,17 +85,6 @@ class TemperatureLabels extends Component {
       });
     };
 
-    this.formatTemperature = c => {
-      if (this.props.temperatureMode === 'F') {
-        return 32 + parseFloat(c, 10) * 9.0 / 5.0;
-      }
-      return parseFloat(c, 10);
-    };
-
-    this.formatTemperatureWithUnit = input =>
-      `${this.formatTemperature(input).toFixed(0)}${this.props
-        .temperatureMode}`;
-
     this.fontSize = () =>
       Math.round(this.scale * (this.props.displayMode === 'temp' ? 13 : 10));
 
@@ -102,7 +93,7 @@ class TemperatureLabels extends Component {
         return place.name;
       }
       const name = place.name;
-      const temp = `${Math.round(this.formatTemperature(place.temp_in_c))}`;
+      const temp = `${this.props.formatTemperature(place.temp_in_c)}`;
       if (this.props.displayMode === 'all') {
         return `${name}\n${temp}`;
       }
@@ -289,7 +280,7 @@ TemperatureLabels.propTypes = {
   }),
   displayMode: React.PropTypes.string,
   location: React.PropTypes.string,
-  temperatureMode: React.PropTypes.string,
+  formatTemperature: React.PropTypes.func.isRequired,
   onStatusClick: React.PropTypes.func
 };
 TemperatureLabels.defaultProps = {

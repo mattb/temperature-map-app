@@ -35,15 +35,10 @@ const Status = ({
         }
       ]}
     >
-      {title}
-      {'\nmin '}
-      {formatTemperature(min_in_c)}
-      {' average '}
-      {formatTemperature(average_in_c)}
-      {' max '}
-      {formatTemperature(max_in_c)}
-      {'\nlast updated '}
-      {when}
+      {title}{'\n'}
+      min {formatTemperature(min_in_c)} average {' '}
+      {formatTemperature(average_in_c)} max {formatTemperature(max_in_c)}
+      {'\n'}last updated {when}
     </Text>
   </TouchableOpacity>;
 
