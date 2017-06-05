@@ -132,6 +132,8 @@ class MainScreen extends Component {
       return (
         <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
           <TemperatureLabels
+            title={this.props.title}
+            loading_image={this.props.loading_image}
             version={this.state.version}
             displayMode={this.props.displayMode}
             formatTemperature={this.props.formatCelsiusTemperature}
@@ -163,9 +165,13 @@ MainScreen.propTypes = {
     height: React.PropTypes.number,
     width: React.PropTypes.number
   }),
+  title: React.PropTypes.string,
+  loading_image: React.PropTypes.node,
   displayMode: React.PropTypes.string.isRequired
 };
 MainScreen.defaultProps = {
+  title: '',
+  loading_image: undefined,
   dimensions: {},
   currentPosition: {}
 };
@@ -173,6 +179,8 @@ MainScreen.defaultProps = {
 export default connect(
   state => ({
     currentPosition: map.selectors.currentPosition(state),
+    title: map.selectors.title(state),
+    loading_image: map.selectors.loadingImage(state),
     displayMode: settings.selectors.displayMode(state),
     dimensions: settings.selectors.dimensions(state),
     scale: settings.selectors.scale(state),

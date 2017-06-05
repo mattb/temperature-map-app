@@ -14,31 +14,6 @@ const imageSize = {
   height: 667
 };
 
-/* eslint-disable global-require */
-const placeData = {
-  temps: {
-    loadingImage: require('../images/temps.png'),
-    title: 'San Francisco'
-  },
-  northbay: {
-    loadingImage: require('../images/northbay.png'),
-    title: 'North Bay'
-  },
-  eastbay: {
-    loadingImage: require('../images/eastbay.png'),
-    title: 'East Bay'
-  },
-  southbay: {
-    loadingImage: require('../images/southbay.png'),
-    title: 'South Bay'
-  },
-  bayarea: {
-    loadingImage: require('../images/bayarea.png'),
-    title: 'Bay Area'
-  }
-};
-/* eslint-enable global-require */
-
 class TemperatureLabels extends Component {
   constructor(props) {
     super(props);
@@ -51,9 +26,7 @@ class TemperatureLabels extends Component {
     this.scale = Math.max(heightScale, widthScale);
     this.state = {
       loading: true,
-      dimensions: {},
-      title: placeData[props.location].title,
-      loading_image: placeData[props.location].loadingImage
+      dimensions: {}
     };
 
     this.formatTemperatureWithUnit = c => this.props.formatTemperature(c, true);
@@ -162,8 +135,6 @@ class TemperatureLabels extends Component {
     if (this.props.location !== nextProps.location) {
       this.setState({
         dimensions: {},
-        title: placeData[nextProps.location].title,
-        loading_image: placeData[nextProps.location].loadingImage,
         loading: true
       });
       this.getData(nextProps.location);
@@ -222,12 +193,12 @@ class TemperatureLabels extends Component {
               uri: this.state.image_url,
               cache: 'force-cache'
             }}
-            defaultSource={this.state.loading_image}
+            defaultSource={this.props.loading_image}
           >
             <Bouncing configName="Status">
               <Status
                 formatTemperature={this.formatTemperatureWithUnit}
-                title={this.state.title}
+                title={this.props.title}
                 scale={this.scale}
                 min_in_c={this.state.min_in_c}
                 max_in_c={this.state.max_in_c}
@@ -266,12 +237,14 @@ class TemperatureLabels extends Component {
     }
     return (
       <View style={this.styles.container}>
-        <Image style={this.styles.map} source={this.state.loading_image} />
+        <Image style={this.styles.map} source={this.props.loading_image} />
       </View>
     );
   }
 }
 TemperatureLabels.propTypes = {
+  title: React.PropTypes.string,
+  loading_image: React.PropTypes.node,
   version: React.PropTypes.string,
   currentPosition: React.PropTypes.shape({
     latitude: React.PropTypes.number,
@@ -284,6 +257,8 @@ TemperatureLabels.propTypes = {
   onStatusClick: React.PropTypes.func
 };
 TemperatureLabels.defaultProps = {
+  title: '',
+  loading_image: undefined,
   version: '',
   displayMode: 'none',
   temperatureMode: 'F',

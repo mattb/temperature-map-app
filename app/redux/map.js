@@ -49,11 +49,39 @@ const reducer = handleActions(
   }
 );
 
+/* eslint-disable global-require */
+const placeData = {
+  temps: {
+    loadingImage: require('../images/temps.png'),
+    title: 'San Francisco'
+  },
+  northbay: {
+    loadingImage: require('../images/northbay.png'),
+    title: 'North Bay'
+  },
+  eastbay: {
+    loadingImage: require('../images/eastbay.png'),
+    title: 'East Bay'
+  },
+  southbay: {
+    loadingImage: require('../images/southbay.png'),
+    title: 'South Bay'
+  },
+  bayarea: {
+    loadingImage: require('../images/bayarea.png'),
+    title: 'Bay Area'
+  }
+};
+/* eslint-enable global-require */
+
 const d3ScaleSelector = ({ map }) => map.data && map.data.d3.scale;
 const d3TranslateSelector = ({ map }) => map.data && map.data.d3.translate;
 
 const selectors = {
   location: ({ map }) => map.location,
+  loadingImage: ({ map }) =>
+    map.location && placeData[map.location].loadingImage,
+  title: ({ map }) => map.location && placeData[map.location].title,
   currentPosition: ({ map }) => map.currentPosition,
   image_url: ({ map }) => `https://tempmap.s3.amazonaws.com/${map.data.png}`,
   when: ({ map }) =>
