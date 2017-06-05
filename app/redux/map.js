@@ -34,12 +34,12 @@ const reducer = handleActions(
     }),
     [createdActions.locationLoading]: (state, action) => ({
       ...state,
-      loading: true,
+      isLoading: true,
       location: action.payload.location
     }),
     [createdActions.locationLoaded]: (state, action) => ({
       ...state,
-      loading: false,
+      isLoading: false,
       location: action.payload.location,
       data: action.payload.data
     })
@@ -79,6 +79,8 @@ const d3TranslateSelector = ({ map }) => map.data && map.data.d3.translate;
 
 const selectors = {
   location: ({ map }) => map.location,
+  isLoading: ({ map }) => map.isLoading,
+  data: ({ map }) => map.data,
   loadingImage: ({ map }) =>
     map.location && placeData[map.location].loadingImage,
   title: ({ map }) => map.location && placeData[map.location].title,
@@ -86,6 +88,12 @@ const selectors = {
   image_url: ({ map }) => `https://tempmap.s3.amazonaws.com/${map.data.png}`,
   when: ({ map }) =>
     moment(map.data.timestamp).local().format('MMMM Do YYYY [at] ha'),
+  isNight: createSelector(
+    ({ map }) => map.data && moment(map.data.sun.sunset),
+    ({ map }) => map.data && moment(map.data.sun.sunrise),
+    (sunset, sunrise) =>
+      sunset && sunrise && (sunset.isBefore() || sunrise.isAfter())
+  ),
   projection: createSelector(
     d3ScaleSelector,
     d3TranslateSelector,
