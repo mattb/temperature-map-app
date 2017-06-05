@@ -22,6 +22,9 @@ class MainScreen extends Component {
     };
   }
   componentWillMount() {
+    if (this.props.location === undefined) {
+      this.props.setLocation('temps');
+    }
     this.props.updateDimensions();
     Dimensions.addEventListener('change', this.props.updateDimensions);
 
@@ -127,11 +130,12 @@ class MainScreen extends Component {
     );
   }
   render() {
-    console.log('dimensions', this.props.dimensions);
     if (this.state.location) {
       return (
         <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
           <TemperatureLabels
+            dimensions={this.props.dimensions}
+            screenScale={this.props.screenScale}
             title={this.props.title}
             loading_image={this.props.loading_image}
             version={this.state.version}
@@ -156,23 +160,29 @@ MainScreen.propTypes = {
   setDisplayMode: React.PropTypes.func.isRequired,
   updateDimensions: React.PropTypes.func.isRequired,
   formatCelsiusTemperature: React.PropTypes.func.isRequired,
+  location: React.PropTypes.string,
   currentPosition: React.PropTypes.shape({
     longitude: React.PropTypes.number,
     latitude: React.PropTypes.number,
     timestamp: React.PropTypes.number
   }),
-  dimensions: React.PropTypes.shape({
-    height: React.PropTypes.number,
-    width: React.PropTypes.number
-  }),
+  screenScale: React.PropTypes.number.isRequired,
   title: React.PropTypes.string,
   loading_image: React.PropTypes.node,
+  dimensions: React.PropTypes.shape({
+    width: React.PropTypes.number,
+    height: React.PropTypes.number
+  }).isRequired,
   displayMode: React.PropTypes.string.isRequired
 };
 MainScreen.defaultProps = {
   title: '',
   loading_image: undefined,
-  dimensions: {},
+  location: undefined,
+  dimensions: {
+    width: 0,
+    height: 0
+  },
   currentPosition: {}
 };
 
@@ -183,7 +193,7 @@ export default connect(
     loading_image: map.selectors.loadingImage(state),
     displayMode: settings.selectors.displayMode(state),
     dimensions: settings.selectors.dimensions(state),
-    scale: settings.selectors.scale(state),
+    screenScale: settings.selectors.scale(state),
     formatCelsiusTemperature: settings.selectors.formatCelsiusTemperature(state)
   }),
   dispatch => ({

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Dimensions, StyleSheet, Image, Text, View } from 'react-native';
+import { StyleSheet, Image, Text, View } from 'react-native';
 import moment from 'moment';
 
 import Status from './Status';
@@ -18,12 +18,6 @@ class TemperatureLabels extends Component {
   constructor(props) {
     super(props);
 
-    const dimensions = Dimensions.get('window');
-    this.screenHeight = dimensions.height;
-    this.screenWidth = dimensions.width;
-    const heightScale = dimensions.height / imageSize.height;
-    const widthScale = dimensions.width / imageSize.width;
-    this.scale = Math.max(heightScale, widthScale);
     this.state = {
       loading: true,
       dimensions: {}
@@ -59,7 +53,9 @@ class TemperatureLabels extends Component {
     };
 
     this.fontSize = () =>
-      Math.round(this.scale * (this.props.displayMode === 'temp' ? 13 : 10));
+      Math.round(
+        this.props.screenScale * (this.props.displayMode === 'temp' ? 13 : 10)
+      );
 
     this.format = place => {
       if (place.isMarker) {
@@ -92,46 +88,49 @@ class TemperatureLabels extends Component {
       const yy = parseInt(y, 10) / 2;
       return {
         left:
-          this.scale * (xx - imageSize.width / 2) +
-            this.screenWidth / 2 -
+          this.props.screenScale * (xx - imageSize.width / 2) +
+            this.props.dimensions.width / 2 -
             offsetX,
         top:
-          this.scale * (yy - imageSize.height / 2) +
-            this.screenHeight / 2 -
+          this.props.screenScale * (yy - imageSize.height / 2) +
+            this.props.dimensions.height / 2 -
             offsetY
       };
     };
 
-    this.styles = StyleSheet.create({
-      textWrapper: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        position: 'absolute',
-        width: wrapperWidth,
-        height: wrapperHeight
-      },
-      text: {
-        backgroundColor: 'rgba(0, 0, 0, 0)',
-        fontWeight: 'bold',
-        textAlign: 'center',
-        width: 65 * this.scale,
-        color: 'black'
-      },
-      container: {
-        alignItems: 'center'
-      },
-      map: {
-        width: dimensions.width,
-        height: dimensions.height,
-        resizeMode: 'cover'
-      }
-    });
+    this.makeStyles = () =>
+      StyleSheet.create({
+        textWrapper: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          position: 'absolute',
+          width: wrapperWidth,
+          height: wrapperHeight
+        },
+        text: {
+          backgroundColor: 'rgba(0, 0, 0, 0)',
+          fontWeight: 'bold',
+          textAlign: 'center',
+          width: 65 * this.props.screenScale,
+          color: 'black'
+        },
+        container: {
+          alignItems: 'center'
+        },
+        map: {
+          width: this.props.dimensions.width,
+          height: this.props.dimensions.height,
+          resizeMode: 'cover'
+        }
+      });
+    this.styles = this.makeStyles();
   }
   componentWillMount() {
     this.getData();
   }
   componentWillReceiveProps(nextProps) {
+    this.styles = this.makeStyles();
     if (this.props.location !== nextProps.location) {
       this.setState({
         dimensions: {},
@@ -199,7 +198,7 @@ class TemperatureLabels extends Component {
               <Status
                 formatTemperature={this.formatTemperatureWithUnit}
                 title={this.props.title}
-                scale={this.scale}
+                scale={this.props.screenScale}
                 min_in_c={this.state.min_in_c}
                 max_in_c={this.state.max_in_c}
                 average_in_c={this.state.average_in_c}
@@ -251,8 +250,13 @@ TemperatureLabels.propTypes = {
     longitude: React.PropTypes.number,
     timestamp: React.PropTypes.number
   }),
+  dimensions: React.PropTypes.shape({
+    width: React.PropTypes.number,
+    height: React.PropTypes.number
+  }).isRequired,
   displayMode: React.PropTypes.string,
   location: React.PropTypes.string,
+  screenScale: React.PropTypes.number.isRequired,
   formatTemperature: React.PropTypes.func.isRequired,
   onStatusClick: React.PropTypes.func
 };
