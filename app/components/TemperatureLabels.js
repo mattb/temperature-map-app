@@ -19,8 +19,7 @@ class TemperatureLabels extends Component {
     super(props);
 
     this.state = {
-      loading: true,
-      dimensions: {}
+      loading: true
     };
 
     this.formatTemperatureWithUnit = c => this.props.formatTemperature(c, true);
@@ -133,16 +132,10 @@ class TemperatureLabels extends Component {
     this.styles = this.makeStyles();
     if (this.props.location !== nextProps.location) {
       this.setState({
-        dimensions: {},
         loading: true
       });
       this.getData(nextProps.location);
       return;
-    }
-    if (this.props.displayMode !== nextProps.displayMode) {
-      this.setState({
-        dimensions: {}
-      });
     }
     if (this.props.version !== nextProps.version) {
       this.getData();
