@@ -11,6 +11,10 @@ const actions = createActions({
   SET_DISPLAY_MODE: mode => ({ mode })
 });
 
+const defaultDimensions = (function getDimensions() {
+  const { height, width } = Dimensions.get('window');
+  return { height, width };
+})();
 const reducer = handleActions(
   {
     [actions.setDisplayMode]: (state, action) => ({
@@ -32,10 +36,7 @@ const reducer = handleActions(
   {
     unit: 'F',
     displayMode: 'name',
-    dimensions: {
-      width: 1,
-      height: 1
-    },
+    dimensions: defaultDimensions,
     imageSize: {
       width: 375,
       height: 667

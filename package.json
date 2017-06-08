@@ -23,6 +23,7 @@
     "react-redux": "^5.0.5",
     "react-style-proptype": "^3.0.0",
     "redux": "^3.6.0",
+    "redux-action-buffer": "^1.1.0",
     "redux-actions": "^2.0.3",
     "redux-devtools-extension": "^2.13.2",
     "redux-persist": "^4.8.0",

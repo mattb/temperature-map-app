@@ -87,7 +87,7 @@ class MapWithLabels extends Component {
       };
     };
 
-    this.makeStyles = () =>
+    this.makeStyles = theProps =>
       StyleSheet.create({
         textWrapper: {
           flex: 1,
@@ -101,22 +101,22 @@ class MapWithLabels extends Component {
           backgroundColor: 'rgba(0, 0, 0, 0)',
           fontWeight: 'bold',
           textAlign: 'center',
-          width: 65 * this.props.screenScale,
+          width: 65 * theProps.screenScale,
           color: 'black'
         },
         container: {
           alignItems: 'center'
         },
         map: {
-          width: this.props.dimensions.width,
-          height: this.props.dimensions.height,
+          width: theProps.dimensions.width,
+          height: theProps.dimensions.height,
           resizeMode: 'cover'
         }
       });
-    this.styles = this.makeStyles();
+    this.styles = this.makeStyles(props);
   }
   componentWillReceiveProps(nextProps) {
-    this.styles = this.makeStyles();
+    this.styles = this.makeStyles(nextProps);
     if (
       this.props.currentPosition.timestamp !==
       nextProps.currentPosition.timestamp
