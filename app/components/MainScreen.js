@@ -8,8 +8,11 @@ import {
   TouchableOpacity,
   Dimensions
 } from 'react-native';
-import TemperatureLabels from './TemperatureLabels';
+
+import Bouncing from './Bouncing';
 import Settings from './Settings';
+import Status from './Status';
+import TemperatureLabels from './TemperatureLabels';
 import map from '../redux/map';
 import settings from '../redux/settings';
 
@@ -20,6 +23,8 @@ class MainScreen extends Component {
       version: (new Date().getTime() / 1000 / 60).toFixed(0),
       temperatureMode: 'F'
     };
+    this.formatTemperatureWithUnit = c =>
+      this.props.formatCelsiusTemperature(c, true);
   }
   componentWillMount() {
     if (this.props.location === undefined) {
@@ -151,6 +156,19 @@ class MainScreen extends Component {
             onStatusClick={this.locationClick}
           />
           <Settings onTouch={this.settingsClick} />
+          {!this.props.isLoading &&
+            <Bouncing configName="Statusbox">
+              <Status
+                formatTemperature={this.formatTemperatureWithUnit}
+                title={this.props.title}
+                scale={this.props.screenScale}
+                min_in_c={this.props.data.min_in_c}
+                max_in_c={this.props.data.max_in_c}
+                average_in_c={this.props.data.average_in_c}
+                when={this.props.when}
+                onTouch={this.locationClick}
+              />
+            </Bouncing>}
         </TouchableOpacity>
       );
     }
@@ -181,6 +199,8 @@ MainScreen.propTypes = {
   displayMode: React.PropTypes.string.isRequired,
   data: React.PropTypes.shape({
     average_in_c: React.PropTypes.number,
+    min_in_c: React.PropTypes.string,
+    max_in_c: React.PropTypes.string,
     png: React.PropTypes.string
   }),
   isLoading: React.PropTypes.bool,

@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
 
-import Status from './Status';
-import Bouncing from './Bouncing';
-
 const markerGlyph = '🔵';
 
 const imageSize = {
@@ -16,8 +13,6 @@ class TemperatureLabels extends Component {
     super(props);
 
     this.state = {};
-
-    this.formatTemperatureWithUnit = c => this.props.formatTemperature(c, true);
 
     this.locationToXY = coords =>
       this.props
@@ -146,18 +141,6 @@ class TemperatureLabels extends Component {
             }}
             defaultSource={this.props.loading_image}
           >
-            <Bouncing configName="Status">
-              <Status
-                formatTemperature={this.formatTemperatureWithUnit}
-                title={this.props.title}
-                scale={this.props.screenScale}
-                min_in_c={this.state.min_in_c}
-                max_in_c={this.state.max_in_c}
-                average_in_c={this.state.average_in_c}
-                when={this.props.when}
-                onTouch={this.props.onStatusClick}
-              />
-            </Bouncing>
             {this.state.places.map(place => {
               const opacity = place.isMarker ? 0.6 : 0.8;
               return (
@@ -194,7 +177,6 @@ class TemperatureLabels extends Component {
   }
 }
 TemperatureLabels.propTypes = {
-  title: React.PropTypes.string,
   loading_image: React.PropTypes.node,
   currentPosition: React.PropTypes.shape({
     latitude: React.PropTypes.number,
@@ -208,23 +190,19 @@ TemperatureLabels.propTypes = {
   displayMode: React.PropTypes.string,
   screenScale: React.PropTypes.number.isRequired,
   formatTemperature: React.PropTypes.func.isRequired,
-  onStatusClick: React.PropTypes.func,
   data: React.PropTypes.shape({
     average_in_c: React.PropTypes.number,
     png: React.PropTypes.string
   }),
   isLoading: React.PropTypes.bool,
   image_url: React.PropTypes.string,
-  when: React.PropTypes.string,
   projection: React.PropTypes.func
 };
 TemperatureLabels.defaultProps = {
   isLoading: true,
   image_url: '',
-  when: '',
   projection: undefined,
   data: {},
-  title: '',
   loading_image: undefined,
   version: '',
   displayMode: 'none',
