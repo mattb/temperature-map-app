@@ -85,9 +85,12 @@ const selectors = {
     map.location && placeData[map.location].loadingImage,
   title: ({ map }) => map.location && placeData[map.location].title,
   currentPosition: ({ map }) => map.currentPosition,
-  image_url: ({ map }) => `https://tempmap.s3.amazonaws.com/${map.data.png}`,
+  image_url: ({ map }) =>
+    (map.data && `https://tempmap.s3.amazonaws.com/${map.data.png}`) || '',
   when: ({ map }) =>
-    moment(map.data.timestamp).local().format('MMMM Do YYYY [at] ha'),
+    (map.data &&
+      moment(map.data.timestamp).local().format('MMMM Do YYYY [at] ha')) ||
+    '',
   isNight: createSelector(
     ({ map }) => map.data && moment(map.data.sun.sunset),
     ({ map }) => map.data && moment(map.data.sun.sunrise),

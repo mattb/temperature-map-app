@@ -134,6 +134,11 @@ class MainScreen extends Component {
       return (
         <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
           <TemperatureLabels
+            data={this.props.data}
+            isLoading={this.props.isLoading}
+            image_url={this.props.image_url}
+            when={this.props.when}
+            projection={this.props.projection}
             dimensions={this.props.dimensions}
             screenScale={this.props.screenScale}
             title={this.props.title}
@@ -173,9 +178,22 @@ MainScreen.propTypes = {
     width: React.PropTypes.number,
     height: React.PropTypes.number
   }).isRequired,
-  displayMode: React.PropTypes.string.isRequired
+  displayMode: React.PropTypes.string.isRequired,
+  data: React.PropTypes.shape({
+    average_in_c: React.PropTypes.number,
+    png: React.PropTypes.string
+  }),
+  isLoading: React.PropTypes.bool,
+  image_url: React.PropTypes.string,
+  when: React.PropTypes.string,
+  projection: React.PropTypes.func
 };
 MainScreen.defaultProps = {
+  isLoading: true,
+  image_url: '',
+  when: '',
+  projection: undefined,
+  data: {},
   title: '',
   loading_image: undefined,
   location: undefined,
@@ -188,6 +206,11 @@ MainScreen.defaultProps = {
 
 export default connect(
   state => ({
+    data: map.selectors.data(state),
+    isLoading: map.selectors.isLoading(state),
+    image_url: map.selectors.image_url(state),
+    when: map.selectors.when(state),
+    projection: map.selectors.projection(state),
     currentPosition: map.selectors.currentPosition(state),
     title: map.selectors.title(state),
     loading_image: map.selectors.loadingImage(state),

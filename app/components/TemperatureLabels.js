@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
-import moment from 'moment';
 
 import Status from './Status';
 import Bouncing from './Bouncing';
-
-const d3 = require('d3-geo');
 
 const markerGlyph = '🔵';
 
@@ -18,14 +15,12 @@ class TemperatureLabels extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      loading: true
-    };
+    this.state = {};
 
     this.formatTemperatureWithUnit = c => this.props.formatTemperature(c, true);
 
     this.locationToXY = coords =>
-      this.state
+      this.props
         .projection([coords.longitude, coords.latitude])
         .map(i => Math.round(i));
 
@@ -125,64 +120,28 @@ class TemperatureLabels extends Component {
       });
     this.styles = this.makeStyles();
   }
-  componentWillMount() {
-    this.getData();
-  }
   componentWillReceiveProps(nextProps) {
     this.styles = this.makeStyles();
-    if (this.props.location !== nextProps.location) {
-      this.setState({
-        loading: true
-      });
-      this.getData(nextProps.location);
-      return;
-    }
-    if (this.props.version !== nextProps.version) {
-      this.getData();
-    }
     if (
       this.props.currentPosition.timestamp !==
       nextProps.currentPosition.timestamp
     ) {
       this.updateMarker(nextProps.currentPosition);
     }
-  }
-  getData(location) {
-    console.log(
-      `https://tempmap.s3.amazonaws.com/${location ||
-        this.props.location}.json?${this.props.version}`
-    );
-    fetch(
-      `https://tempmap.s3.amazonaws.com/${location ||
-        this.props.location}.json?${this.props.version}`
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState(
-          {
-            ...data,
-            image_url: `https://tempmap.s3.amazonaws.com/${data.png}`,
-            when: moment(data.timestamp).local().format('MMMM Do YYYY [at] ha'),
-            projection: d3
-              .geoMercator()
-              .scale(data.d3.scale)
-              .translate(data.d3.translate),
-            loading: false
-          },
-          () => {
-            this.updateMarker(this.props.currentPosition);
-          }
-        );
+    if (this.props.data !== nextProps.data) {
+      this.setState({ ...nextProps.data }, () => {
+        this.updateMarker(nextProps.currentPosition);
       });
+    }
   }
   render() {
-    if (this.state.places && !this.state.loading) {
+    if (this.state.places && !this.props.isLoading) {
       return (
         <View>
           <Image
             style={this.styles.map}
             source={{
-              uri: this.state.image_url,
+              uri: this.props.image_url,
               cache: 'force-cache'
             }}
             defaultSource={this.props.loading_image}
@@ -195,7 +154,7 @@ class TemperatureLabels extends Component {
                 min_in_c={this.state.min_in_c}
                 max_in_c={this.state.max_in_c}
                 average_in_c={this.state.average_in_c}
-                when={this.state.when}
+                when={this.props.when}
                 onTouch={this.props.onStatusClick}
               />
             </Bouncing>
@@ -237,7 +196,6 @@ class TemperatureLabels extends Component {
 TemperatureLabels.propTypes = {
   title: React.PropTypes.string,
   loading_image: React.PropTypes.node,
-  version: React.PropTypes.string,
   currentPosition: React.PropTypes.shape({
     latitude: React.PropTypes.number,
     longitude: React.PropTypes.number,
@@ -248,12 +206,24 @@ TemperatureLabels.propTypes = {
     height: React.PropTypes.number
   }).isRequired,
   displayMode: React.PropTypes.string,
-  location: React.PropTypes.string,
   screenScale: React.PropTypes.number.isRequired,
   formatTemperature: React.PropTypes.func.isRequired,
-  onStatusClick: React.PropTypes.func
+  onStatusClick: React.PropTypes.func,
+  data: React.PropTypes.shape({
+    average_in_c: React.PropTypes.number,
+    png: React.PropTypes.string
+  }),
+  isLoading: React.PropTypes.bool,
+  image_url: React.PropTypes.string,
+  when: React.PropTypes.string,
+  projection: React.PropTypes.func
 };
 TemperatureLabels.defaultProps = {
+  isLoading: true,
+  image_url: '',
+  when: '',
+  projection: undefined,
+  data: {},
   title: '',
   loading_image: undefined,
   version: '',
