@@ -66,6 +66,16 @@
                ReferencedContainer = "container:marine.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D91DD24E1EE8F10300369A98"
+               BuildableName = "marineUITests.xctest"
+               BlueprintName = "marineUITests"
+               ReferencedContainer = "container:marine.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

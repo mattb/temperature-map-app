@@ -41,6 +41,8 @@
 		79338ABEA3314EDB9C15AD8B /* libRNDefaultPreference.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A55D44BD964DC09178BEF7 /* libRNDefaultPreference.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		AA6C4892C4B34A0FADE5798A /* libCodePush.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E98B62B9CD314846AAB106E4 /* libCodePush.a */; };
+		D91DD2521EE8F10300369A98 /* marineUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91DD2511EE8F10300369A98 /* marineUITests.swift */; };
+		D91DD2771EE8F15D00369A98 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91DD2761EE8F15D00369A98 /* SnapshotHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,6 +235,13 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
+		D91DD2541EE8F10300369A98 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
+			remoteInfo = marine;
+		};
 		D932E74A1EC6C8B0007C4DF3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F7812638561047F6842F1DE0 /* ReactNativeConfig.xcodeproj */;
@@ -295,6 +304,10 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8F8766C2CD174D7092C44322 /* RNDefaultPreference.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNDefaultPreference.xcodeproj; path = "../node_modules/react-native-default-preference/ios/RNDefaultPreference.xcodeproj"; sourceTree = "<group>"; };
 		92B373BC820F4F0DB5D6746E /* CodePush.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = CodePush.xcodeproj; path = "../node_modules/react-native-code-push/ios/CodePush.xcodeproj"; sourceTree = "<group>"; };
+		D91DD24F1EE8F10300369A98 /* marineUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = marineUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D91DD2511EE8F10300369A98 /* marineUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = marineUITests.swift; sourceTree = "<group>"; };
+		D91DD2531EE8F10300369A98 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D91DD2761EE8F15D00369A98 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotHelper.swift; path = fastlane/SnapshotHelper.swift; sourceTree = SOURCE_ROOT; };
 		E98B62B9CD314846AAB106E4 /* libCodePush.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libCodePush.a; sourceTree = "<group>"; };
 		F7812638561047F6842F1DE0 /* ReactNativeConfig.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeConfig.xcodeproj; path = "../node_modules/react-native-config/ios/ReactNativeConfig.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -347,6 +360,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		2D02E48D1E0B4A5D006451C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D91DD24C1EE8F10300369A98 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -525,6 +545,7 @@
 				13B07FAE1A68108700A75B9A /* marine */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* marineTests */,
+				D91DD2501EE8F10300369A98 /* marineUITests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				0898B18AACBF48EC9184F377 /* Frameworks */,
 			);
@@ -539,8 +560,19 @@
 				00E356EE1AD99517003FC87E /* marineTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* marine-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* marine-tvOSTests.xctest */,
+				D91DD24F1EE8F10300369A98 /* marineUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D91DD2501EE8F10300369A98 /* marineUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D91DD2761EE8F15D00369A98 /* SnapshotHelper.swift */,
+				D91DD2511EE8F10300369A98 /* marineUITests.swift */,
+				D91DD2531EE8F10300369A98 /* Info.plist */,
+			);
+			path = marineUITests;
 			sourceTree = "<group>";
 		};
 		D932E72E1EC6C8AF007C4DF3 /* Products */ = {
@@ -650,12 +682,31 @@
 			productReference = 2D02E4901E0B4A5D006451C7 /* marine-tvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		D91DD24E1EE8F10300369A98 /* marineUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D91DD2751EE8F10300369A98 /* Build configuration list for PBXNativeTarget "marineUITests" */;
+			buildPhases = (
+				D91DD24B1EE8F10300369A98 /* Sources */,
+				D91DD24C1EE8F10300369A98 /* Frameworks */,
+				D91DD24D1EE8F10300369A98 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D91DD2551EE8F10300369A98 /* PBXTargetDependency */,
+			);
+			name = marineUITests;
+			productName = marineUITests;
+			productReference = D91DD24F1EE8F10300369A98 /* marineUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0830;
 				LastUpgradeCheck = 610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
@@ -676,6 +727,12 @@
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
+					};
+					D91DD24E1EE8F10300369A98 = {
+						CreatedOnToolsVersion = 8.3.2;
+						DevelopmentTeam = RT374Z2PQ5;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 				};
 			};
@@ -758,6 +815,7 @@
 				00E356ED1AD99517003FC87E /* marineTests */,
 				2D02E47A1E0B4A5D006451C7 /* marine-tvOS */,
 				2D02E48F1E0B4A5D006451C7 /* marine-tvOSTests */,
+				D91DD24E1EE8F10300369A98 /* marineUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -1000,6 +1058,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D91DD24D1EE8F10300369A98 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1068,6 +1133,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D91DD24B1EE8F10300369A98 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D91DD2521EE8F10300369A98 /* marineUITests.swift in Sources */,
+				D91DD2771EE8F15D00369A98 /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1080,6 +1154,11 @@
 			isa = PBXTargetDependency;
 			target = 2D02E47A1E0B4A5D006451C7 /* marine-tvOS */;
 			targetProxy = 2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */;
+		};
+		D91DD2551EE8F10300369A98 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 13B07F861A680F5B00A75B9A /* marine */;
+			targetProxy = D91DD2541EE8F10300369A98 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1437,6 +1516,55 @@
 			};
 			name = Release;
 		};
+		D91DD2561EE8F10300369A98 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = RT374Z2PQ5;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = marineUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hackdiary.marineUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "cdbfdbd2-efc0-45ff-b929-a84e3b4ea702";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = marine;
+			};
+			name = Debug;
+		};
+		D91DD2571EE8F10300369A98 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = RT374Z2PQ5;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = marineUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.hackdiary.marineUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "cdbfdbd2-efc0-45ff-b929-a84e3b4ea702";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = marine;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1484,6 +1612,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		D91DD2751EE8F10300369A98 /* Build configuration list for PBXNativeTarget "marineUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D91DD2561EE8F10300369A98 /* Debug */,
+				D91DD2571EE8F10300369A98 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
