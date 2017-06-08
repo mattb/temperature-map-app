@@ -137,24 +137,26 @@ class MainScreen extends Component {
   render() {
     if (this.state.location) {
       return (
-        <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
-          <MapWithLabels
-            data={this.props.data}
-            isLoading={this.props.isLoading}
-            image_url={this.props.image_url}
-            when={this.props.when}
-            projection={this.props.projection}
-            dimensions={this.props.dimensions}
-            screenScale={this.props.screenScale}
-            title={this.props.title}
-            loading_image={this.props.loading_image}
-            version={this.state.version}
-            displayMode={this.props.displayMode}
-            formatTemperature={this.props.formatCelsiusTemperature}
-            location={this.state.location}
-            currentPosition={this.props.currentPosition}
-            onStatusClick={this.locationClick}
-          />
+        <View>
+          <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
+            <MapWithLabels
+              data={this.props.data}
+              isLoading={this.props.isLoading}
+              image_url={this.props.image_url}
+              when={this.props.when}
+              projection={this.props.projection}
+              dimensions={this.props.dimensions}
+              screenScale={this.props.screenScale}
+              title={this.props.title}
+              loading_image={this.props.loading_image}
+              version={this.state.version}
+              displayMode={this.props.displayMode}
+              formatTemperature={this.props.formatCelsiusTemperature}
+              location={this.state.location}
+              currentPosition={this.props.currentPosition}
+              onStatusClick={this.locationClick}
+            />
+          </TouchableOpacity>
           <Settings onTouch={this.settingsClick} />
           {!this.props.isLoading &&
             <Bouncing configName="Statusbox">
@@ -169,7 +171,7 @@ class MainScreen extends Component {
                 onTouch={this.locationClick}
               />
             </Bouncing>}
-        </TouchableOpacity>
+        </View>
       );
     }
     return <View />;

@@ -26,7 +26,13 @@ const Status = ({
   max_in_c,
   when
 }) =>
-  <TouchableOpacity onPress={onTouch} style={styles.box}>
+  <TouchableOpacity
+    onPress={onTouch}
+    style={styles.box}
+    testID="status-panel"
+    accessible
+    accessibilityLabel="status"
+  >
     <Text
       style={[
         styles.label,
