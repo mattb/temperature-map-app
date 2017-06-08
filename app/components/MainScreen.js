@@ -20,7 +20,6 @@ class MainScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      version: (new Date().getTime() / 1000 / 60).toFixed(0),
       temperatureMode: 'F'
     };
     this.formatTemperatureWithUnit = c =>
@@ -28,7 +27,14 @@ class MainScreen extends Component {
   }
   componentWillMount() {
     if (this.props.location === undefined) {
-      this.props.setLocation('temps');
+      this.props.setLocation({
+        location: 'temps',
+        versionUpdate: true
+      });
+    } else {
+      this.props.setLocation({
+        versionUpdate: true
+      });
     }
     this.props.updateDimensions();
     Dimensions.addEventListener('change', this.props.updateDimensions);
@@ -81,7 +87,9 @@ class MainScreen extends Component {
             return;
           }
           const location = locations[buttonIndex][1];
-          this.props.setLocation(location);
+          this.props.setLocation({
+            location
+          });
           this.setState({
             location
           });
@@ -95,8 +103,8 @@ class MainScreen extends Component {
     this.modeClick = () => {
       displayModeIndex = (displayModeIndex + 1) % displayModes.length;
       this.props.setDisplayMode(displayModes[displayModeIndex]);
-      this.setState({
-        version: (new Date().getTime() / 1000 / 60).toFixed(0)
+      this.props.setLocation({
+        versionUpdate: true
       });
       DefaultPreference.set('display-mode', `${displayModeIndex}`).then(() => {
         console.log('displayMode set done');
@@ -117,15 +125,15 @@ class MainScreen extends Component {
 
     AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'active') {
-        this.setState({
-          version: (new Date().getTime() / 1000 / 60).toFixed(0)
+        this.props.setLocation({
+          versionUpdate: true
         });
       }
     });
 
     setInterval(() => {
-      this.setState({
-        version: (new Date().getTime() / 1000 / 60).toFixed(0)
+      this.props.setLocation({
+        versionUpdate: true
       });
     }, 1000 * 60);
     this.watchID = navigator.geolocation.watchPosition(
@@ -147,12 +155,9 @@ class MainScreen extends Component {
               projection={this.props.projection}
               dimensions={this.props.dimensions}
               screenScale={this.props.screenScale}
-              title={this.props.title}
               loading_image={this.props.loading_image}
-              version={this.state.version}
               displayMode={this.props.displayMode}
               formatTemperature={this.props.formatCelsiusTemperature}
-              location={this.state.location}
               currentPosition={this.props.currentPosition}
               onStatusClick={this.locationClick}
             />

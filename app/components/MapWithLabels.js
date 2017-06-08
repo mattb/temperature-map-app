@@ -204,10 +204,8 @@ MapWithLabels.defaultProps = {
   projection: undefined,
   data: {},
   loading_image: undefined,
-  version: '',
   displayMode: 'none',
   temperatureMode: 'F',
-  location: 'sf',
   currentPosition: {},
   onStatusClick: undefined
 };

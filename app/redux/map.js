@@ -6,26 +6,38 @@ const d3 = require('d3-geo');
 
 const createdActions = createActions({
   SET_MARKER: (coords, timestamp) => ({ coords, timestamp }),
-  SET_VERSION: version => ({ version }),
-  LOCATION_LOADING: location => ({ location }),
-  LOCATION_LOADED: (location, data) => ({ location, data })
+  LOCATION_LOADING: (location, version) => ({ location, version }),
+  LOCATION_LOADED: (location, version, data) => ({ location, version, data })
 });
 const asyncActions = {
-  setLocation: location => (dispatch, getState) => {
-    const { map: { version } } = getState();
-    dispatch(createdActions.locationLoading(location));
-    return fetch(`https://tempmap.s3.amazonaws.com/${location}.json?${version}`)
+  setLocation: ({ location, versionUpdate }) => (dispatch, getState) => {
+    let theVersion;
+    if (versionUpdate) {
+      theVersion = (new Date().getTime() / 1000 / 60).toFixed(0);
+    } else {
+      theVersion = getState().map.version;
+    }
+    const theLocation = location || getState().map.location;
+    if (
+      theVersion === getState().map.version &&
+      theLocation === getState().map.location
+    ) {
+      return;
+    }
+    dispatch(createdActions.locationLoading(theLocation, theVersion));
+    console.log(
+      `https://tempmap.s3.amazonaws.com/${theLocation}.json?${theVersion}`
+    );
+    fetch(`https://tempmap.s3.amazonaws.com/${theLocation}.json?${theVersion}`)
       .then(response => response.json())
-      .then(json => dispatch(createdActions.locationLoaded(location, json)));
+      .then(json =>
+        dispatch(createdActions.locationLoaded(theLocation, theVersion, json))
+      );
   }
 };
 
 const reducer = handleActions(
   {
-    [createdActions.setVersion]: (state, { payload: { version } }) => ({
-      ...state,
-      version
-    }),
     [createdActions.setMarker]: (state, action) => ({
       ...state,
       currentPosition: Object.assign({}, action.payload.coords, {
@@ -35,12 +47,14 @@ const reducer = handleActions(
     [createdActions.locationLoading]: (state, action) => ({
       ...state,
       isLoading: true,
-      location: action.payload.location
+      location: action.payload.location,
+      version: action.payload.version
     }),
     [createdActions.locationLoaded]: (state, action) => ({
       ...state,
       isLoading: false,
       location: action.payload.location,
+      version: action.payload.version,
       data: action.payload.data
     })
   },
