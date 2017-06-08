@@ -12,7 +12,7 @@ import {
 import Bouncing from './Bouncing';
 import Settings from './Settings';
 import Status from './Status';
-import Map from './Map';
+import MapWithLabels from './MapWithLabels';
 import map from '../redux/map';
 import settings from '../redux/settings';
 
@@ -138,7 +138,7 @@ class MainScreen extends Component {
     if (this.state.location) {
       return (
         <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
-          <Map
+          <MapWithLabels
             data={this.props.data}
             isLoading={this.props.isLoading}
             image_url={this.props.image_url}

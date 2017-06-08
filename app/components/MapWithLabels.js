@@ -8,7 +8,7 @@ const imageSize = {
   height: 667
 };
 
-class Map extends Component {
+class MapWithLabels extends Component {
   constructor(props) {
     super(props);
 
@@ -176,7 +176,7 @@ class Map extends Component {
     );
   }
 }
-Map.propTypes = {
+MapWithLabels.propTypes = {
   loading_image: React.PropTypes.node,
   currentPosition: React.PropTypes.shape({
     latitude: React.PropTypes.number,
@@ -198,7 +198,7 @@ Map.propTypes = {
   image_url: React.PropTypes.string,
   projection: React.PropTypes.func
 };
-Map.defaultProps = {
+MapWithLabels.defaultProps = {
   isLoading: true,
   image_url: '',
   projection: undefined,
@@ -212,4 +212,4 @@ Map.defaultProps = {
   onStatusClick: undefined
 };
 
-export default Map;
+export default MapWithLabels;
