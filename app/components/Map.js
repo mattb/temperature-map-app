@@ -8,7 +8,7 @@ const imageSize = {
   height: 667
 };
 
-class TemperatureLabels extends Component {
+class Map extends Component {
   constructor(props) {
     super(props);
 
@@ -176,7 +176,7 @@ class TemperatureLabels extends Component {
     );
   }
 }
-TemperatureLabels.propTypes = {
+Map.propTypes = {
   loading_image: React.PropTypes.node,
   currentPosition: React.PropTypes.shape({
     latitude: React.PropTypes.number,
@@ -198,7 +198,7 @@ TemperatureLabels.propTypes = {
   image_url: React.PropTypes.string,
   projection: React.PropTypes.func
 };
-TemperatureLabels.defaultProps = {
+Map.defaultProps = {
   isLoading: true,
   image_url: '',
   projection: undefined,
@@ -212,4 +212,4 @@ TemperatureLabels.defaultProps = {
   onStatusClick: undefined
 };
 
-export default TemperatureLabels;
+export default Map;
