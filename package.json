@@ -19,6 +19,7 @@
     "react-native-code-push": "^2.0.3-beta",
     "react-native-config": "^0.4.2",
     "react-native-default-preference": "^1.1.1",
+    "react-native-iphone-x-helper": "^1.0.1",
     "react-native-svg-uri": "^1.2.0",
     "react-redux": "^5.0.5",
     "react-style-proptype": "^3.0.0",
