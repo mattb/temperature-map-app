@@ -490,6 +490,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		2C5EE0781F8DD11D00A59EB7 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				04A1094D04824D87A09E6384 /* libReactNativeConfig.a */,
+				E98B62B9CD314846AAB106E4 /* libCodePush.a */,
+				04A55D44BD964DC09178BEF7 /* libRNDefaultPreference.a */,
+				30910D8687AE4A909F373248 /* libRNSVG.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -548,6 +559,7 @@
 				D91DD2501EE8F10300369A98 /* marineUITests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				0898B18AACBF48EC9184F377 /* Frameworks */,
+				2C5EE0781F8DD11D00A59EB7 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -1620,6 +1632,7 @@
 				D91DD2571EE8F10300369A98 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
