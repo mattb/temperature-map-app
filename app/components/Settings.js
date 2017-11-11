@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 import SvgUri from 'react-native-svg-uri';
 
 const gear = require('../images/settings.svg');
@@ -8,7 +9,14 @@ const gear = require('../images/settings.svg');
 const styles = StyleSheet.create({
   box: {
     right: 10,
-    bottom: 10,
+    ...ifIphoneX(
+      {
+        bottom: 34
+      },
+      {
+        bottom: 10
+      }
+    ),
     backgroundColor: 'rgba(230, 230, 230, 1.0)',
     position: 'absolute',
     paddingLeft: 2,

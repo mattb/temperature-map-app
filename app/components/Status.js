@@ -1,11 +1,19 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { ifIphoneX } from 'react-native-iphone-x-helper';
 
 const styles = StyleSheet.create({
   box: {
     left: 10,
-    bottom: 10,
+    ...ifIphoneX(
+      {
+        bottom: 34
+      },
+      {
+        bottom: 10
+      }
+    ),
     backgroundColor: 'rgba(230, 230, 230, 0.7)',
     position: 'absolute',
     padding: 3,
