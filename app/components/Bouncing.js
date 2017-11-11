@@ -43,11 +43,7 @@ class Bouncing extends React.Component {
         </Animatable.View>
       );
     }
-    return (
-      <View style={styles.wrapper}>
-        {this.props.children}
-      </View>
-    );
+    return <View style={styles.wrapper}>{this.props.children}</View>;
   }
 }
 

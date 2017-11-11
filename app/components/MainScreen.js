@@ -65,12 +65,11 @@ class MainScreen extends Component {
           this.setState({
             temperatureMode
           });
-          DefaultPreference.set(
-            'temperature-mode',
-            temperatureMode
-          ).then(() => {
-            console.log('temperatureMode set done', temperatureMode);
-          });
+          DefaultPreference.set('temperature-mode', temperatureMode).then(
+            () => {
+              console.log('temperatureMode set done', temperatureMode);
+            }
+          );
         }
       );
     };
@@ -164,7 +163,7 @@ class MainScreen extends Component {
             />
           </TouchableOpacity>
           <Settings onTouch={this.settingsClick} />
-          {!this.props.isLoading &&
+          {!this.props.isLoading && (
             <Bouncing configName="Statusbox">
               <Status
                 formatTemperature={this.formatTemperatureWithUnit}
@@ -176,7 +175,8 @@ class MainScreen extends Component {
                 when={this.props.when}
                 onTouch={this.locationClick}
               />
-            </Bouncing>}
+            </Bouncing>
+          )}
         </View>
       );
     }

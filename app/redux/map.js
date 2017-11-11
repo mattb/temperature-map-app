@@ -103,7 +103,9 @@ const selectors = {
     (map.data && `https://tempmap.s3.amazonaws.com/${map.data.png}`) || '',
   when: ({ map }) =>
     (map.data &&
-      moment(map.data.timestamp).local().format('MMMM Do YYYY [at] ha')) ||
+      moment(map.data.timestamp)
+        .local()
+        .format('MMMM Do YYYY [at] ha')) ||
     '',
   isNight: createSelector(
     ({ map }) => map.data && moment(map.data.sun.sunset),
@@ -116,7 +118,10 @@ const selectors = {
     d3TranslateSelector,
     (scale, translate) => {
       if (scale !== undefined && translate !== undefined) {
-        return d3.geoMercator().scale(scale).translate(translate);
+        return d3
+          .geoMercator()
+          .scale(scale)
+          .translate(translate);
       }
       return undefined;
     }

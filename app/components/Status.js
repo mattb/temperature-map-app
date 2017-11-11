@@ -26,7 +26,7 @@ const Status = ({
   average_in_c,
   max_in_c,
   when
-}) =>
+}) => (
   <TouchableOpacity
     onPress={onTouch}
     style={styles.box}
@@ -42,12 +42,14 @@ const Status = ({
         }
       ]}
     >
-      {title}{'\n'}
-      min {formatTemperature(min_in_c)} average {' '}
+      {title}
+      {'\n'}
+      min {formatTemperature(min_in_c)} average{' '}
       {formatTemperature(average_in_c)} max {formatTemperature(max_in_c)}
       {'\n'}last updated {when}
     </Text>
-  </TouchableOpacity>;
+  </TouchableOpacity>
+);
 
 Status.propTypes = {
   title: PropTypes.string.isRequired,
