@@ -39,6 +39,11 @@ public class MainApplication extends Application implements ReactApplication {
             new ReactNativeConfigPackage()
       );
     }
+
+    @Override
+    protected String getJSMainModuleName() {
+      return "index";
+    }
   };
 
   @Override
