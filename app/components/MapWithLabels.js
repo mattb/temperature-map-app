@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { isIphoneX } from 'react-native-iphone-x-helper';
 import { StyleSheet, Image, Text, View } from 'react-native';
 
 const markerGlyph = '🔵';
@@ -46,6 +47,18 @@ class MapWithLabels extends Component {
       Math.round(
         this.props.screenScale * (this.props.displayMode === 'temp' ? 13 : 10)
       );
+
+    if (isIphoneX()) {
+      this.safeAreas = {
+        top: 44,
+        bottom: this.props.dimensions.height - 72 - this.fontSize()
+      };
+    } else {
+      this.safeAreas = {
+        top: 0,
+        bottom: this.props.dimensions.height - this.fontSize()
+      };
+    }
 
     this.format = place => {
       if (place.isMarker) {
@@ -143,13 +156,17 @@ class MapWithLabels extends Component {
           />
           {this.state.places.map(place => {
             const opacity = place.isMarker ? 0.6 : 0.8;
+            const scaledXY = this.scaleXY(place.x, place.y);
+            if (
+              scaledXY.top < this.safeAreas.top ||
+              scaledXY.top > this.safeAreas.bottom
+            ) {
+              return <View key={place.name} />;
+            }
             return (
               <View
                 key={place.name}
-                style={[
-                  this.styles.textWrapper,
-                  this.scaleXY(place.x, place.y)
-                ]}
+                style={[this.styles.textWrapper, scaledXY]}
               >
                 <Text
                   style={[
