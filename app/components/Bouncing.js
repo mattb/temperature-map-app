@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import DefaultPreference from 'react-native-default-preference';
@@ -51,8 +52,8 @@ class Bouncing extends React.Component {
 }
 
 Bouncing.propTypes = {
-  children: React.PropTypes.node.isRequired,
-  configName: React.PropTypes.string.isRequired
+  children: PropTypes.node.isRequired,
+  configName: PropTypes.string.isRequired
 };
 
 export default Bouncing;

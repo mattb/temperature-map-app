@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
 
@@ -50,16 +51,15 @@ class MapWithLabels extends Component {
       if (place.isMarker) {
         return place.name;
       }
-      const name = place.name;
       const temp = `${this.props.formatTemperature(place.temp_in_c)}`;
       if (this.props.displayMode === 'all') {
-        return `${name}\n${temp}`;
+        return `${place.name}\n${temp}`;
       }
       if (this.props.displayMode === 'none') {
         return '';
       }
       if (this.props.displayMode === 'name') {
-        return `${name}`;
+        return `${place.name}`;
       }
       if (this.props.displayMode === 'temp') {
         return `${temp}`;
@@ -78,12 +78,12 @@ class MapWithLabels extends Component {
       return {
         left:
           this.props.screenScale * (xx - imageSize.width / 2) +
-            this.props.dimensions.width / 2 -
-            offsetX,
+          this.props.dimensions.width / 2 -
+          offsetX,
         top:
           this.props.screenScale * (yy - imageSize.height / 2) +
-            this.props.dimensions.height / 2 -
-            offsetY
+          this.props.dimensions.height / 2 -
+          offsetY
       };
     };
 
@@ -140,32 +140,31 @@ class MapWithLabels extends Component {
               cache: 'force-cache'
             }}
             defaultSource={this.props.loading_image}
-          >
-            {this.state.places.map(place => {
-              const opacity = place.isMarker ? 0.6 : 0.8;
-              return (
-                <View
-                  key={place.name}
+          />
+          {this.state.places.map(place => {
+            const opacity = place.isMarker ? 0.6 : 0.8;
+            return (
+              <View
+                key={place.name}
+                style={[
+                  this.styles.textWrapper,
+                  this.scaleXY(place.x, place.y)
+                ]}
+              >
+                <Text
                   style={[
-                    this.styles.textWrapper,
-                    this.scaleXY(place.x, place.y)
+                    this.styles.text,
+                    {
+                      opacity,
+                      fontSize: place.isMarker ? 12 : this.fontSize()
+                    }
                   ]}
                 >
-                  <Text
-                    style={[
-                      this.styles.text,
-                      {
-                        opacity,
-                        fontSize: place.isMarker ? 12 : this.fontSize()
-                      }
-                    ]}
-                  >
-                    {this.format(place)}
-                  </Text>
-                </View>
-              );
-            })}
-          </Image>
+                  {this.format(place)}
+                </Text>
+              </View>
+            );
+          })}
         </View>
       );
     }
@@ -177,26 +176,26 @@ class MapWithLabels extends Component {
   }
 }
 MapWithLabels.propTypes = {
-  loading_image: React.PropTypes.node,
-  currentPosition: React.PropTypes.shape({
-    latitude: React.PropTypes.number,
-    longitude: React.PropTypes.number,
-    timestamp: React.PropTypes.number
+  loading_image: PropTypes.node,
+  currentPosition: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+    timestamp: PropTypes.number
   }),
-  dimensions: React.PropTypes.shape({
-    width: React.PropTypes.number,
-    height: React.PropTypes.number
+  dimensions: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number
   }).isRequired,
-  displayMode: React.PropTypes.string,
-  screenScale: React.PropTypes.number.isRequired,
-  formatTemperature: React.PropTypes.func.isRequired,
-  data: React.PropTypes.shape({
-    average_in_c: React.PropTypes.number,
-    png: React.PropTypes.string
+  displayMode: PropTypes.string,
+  screenScale: PropTypes.number.isRequired,
+  formatTemperature: PropTypes.func.isRequired,
+  data: PropTypes.shape({
+    average_in_c: PropTypes.number,
+    png: PropTypes.string
   }),
-  isLoading: React.PropTypes.bool,
-  image_url: React.PropTypes.string,
-  projection: React.PropTypes.func
+  isLoading: PropTypes.bool,
+  image_url: PropTypes.string,
+  projection: PropTypes.func
 };
 MapWithLabels.defaultProps = {
   isLoading: true,
@@ -205,9 +204,7 @@ MapWithLabels.defaultProps = {
   data: {},
   loading_image: undefined,
   displayMode: 'none',
-  temperatureMode: 'F',
-  currentPosition: {},
-  onStatusClick: undefined
+  currentPosition: {}
 };
 
 export default MapWithLabels;

@@ -1,5 +1,6 @@
 import DefaultPreference from 'react-native-default-preference';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
   View,
@@ -184,36 +185,36 @@ class MainScreen extends Component {
 }
 
 MainScreen.propTypes = {
-  setLocation: React.PropTypes.func.isRequired,
-  setMarker: React.PropTypes.func.isRequired,
-  setUnit: React.PropTypes.func.isRequired,
-  setDisplayMode: React.PropTypes.func.isRequired,
-  updateDimensions: React.PropTypes.func.isRequired,
-  formatCelsiusTemperature: React.PropTypes.func.isRequired,
-  location: React.PropTypes.string,
-  currentPosition: React.PropTypes.shape({
-    longitude: React.PropTypes.number,
-    latitude: React.PropTypes.number,
-    timestamp: React.PropTypes.number
+  setLocation: PropTypes.func.isRequired,
+  setMarker: PropTypes.func.isRequired,
+  setUnit: PropTypes.func.isRequired,
+  setDisplayMode: PropTypes.func.isRequired,
+  updateDimensions: PropTypes.func.isRequired,
+  formatCelsiusTemperature: PropTypes.func.isRequired,
+  location: PropTypes.string,
+  currentPosition: PropTypes.shape({
+    longitude: PropTypes.number,
+    latitude: PropTypes.number,
+    timestamp: PropTypes.number
   }),
-  screenScale: React.PropTypes.number.isRequired,
-  title: React.PropTypes.string,
-  loading_image: React.PropTypes.node,
-  dimensions: React.PropTypes.shape({
-    width: React.PropTypes.number,
-    height: React.PropTypes.number
+  screenScale: PropTypes.number.isRequired,
+  title: PropTypes.string,
+  loading_image: PropTypes.node,
+  dimensions: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number
   }).isRequired,
-  displayMode: React.PropTypes.string.isRequired,
-  data: React.PropTypes.shape({
-    average_in_c: React.PropTypes.number,
-    min_in_c: React.PropTypes.string,
-    max_in_c: React.PropTypes.string,
-    png: React.PropTypes.string
+  displayMode: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    average_in_c: PropTypes.number,
+    min_in_c: PropTypes.string,
+    max_in_c: PropTypes.string,
+    png: PropTypes.string
   }),
-  isLoading: React.PropTypes.bool,
-  image_url: React.PropTypes.string,
-  when: React.PropTypes.string,
-  projection: React.PropTypes.func
+  isLoading: PropTypes.bool,
+  image_url: PropTypes.string,
+  when: PropTypes.string,
+  projection: PropTypes.func
 };
 MainScreen.defaultProps = {
   isLoading: true,

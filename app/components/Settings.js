@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import SvgUri from 'react-native-svg-uri';
@@ -15,13 +16,10 @@ const styles = StyleSheet.create({
     paddingTop: 4,
     borderRadius: 5,
     opacity: 0.7
-  },
-  gear: {
-    opacity: 0.8
   }
 });
 
-const Settings = ({ onTouch }) =>
+const Settings = ({ onTouch }) => (
   <TouchableOpacity
     onPress={onTouch}
     style={styles.box}
@@ -29,11 +27,12 @@ const Settings = ({ onTouch }) =>
     accessible
     accessibilityLabel="settings"
   >
-    <SvgUri style={styles.gear} width="25" height="25" source={gear} />
-  </TouchableOpacity>;
+    <SvgUri style={{ opacity: 0.8 }} width="25" height="25" source={gear} />
+  </TouchableOpacity>
+);
 
 Settings.propTypes = {
-  onTouch: React.PropTypes.func
+  onTouch: PropTypes.func
 };
 
 Settings.defaultProps = {

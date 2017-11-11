@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
@@ -49,14 +50,14 @@ const Status = ({
   </TouchableOpacity>;
 
 Status.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  scale: React.PropTypes.number.isRequired,
-  min_in_c: React.PropTypes.string.isRequired,
-  average_in_c: React.PropTypes.number.isRequired,
-  max_in_c: React.PropTypes.string.isRequired,
-  when: React.PropTypes.string.isRequired,
-  onTouch: React.PropTypes.func,
-  formatTemperature: React.PropTypes.func.isRequired
+  title: PropTypes.string.isRequired,
+  scale: PropTypes.number.isRequired,
+  min_in_c: PropTypes.string.isRequired,
+  average_in_c: PropTypes.number.isRequired,
+  max_in_c: PropTypes.string.isRequired,
+  when: PropTypes.string.isRequired,
+  onTouch: PropTypes.func,
+  formatTemperature: PropTypes.func.isRequired
 };
 
 Status.defaultProps = {
