@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "marine.app"
-               BlueprintName = "marine"
-               ReferencedContainer = "container:marine.xcodeproj">
+               BuildableName = "BayAreaClimate.app"
+               BlueprintName = "BayAreaClimate"
+               ReferencedContainer = "container:BayAreaClimate.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "marineTests.xctest"
-               BlueprintName = "marineTests"
-               ReferencedContainer = "container:marine.xcodeproj">
+               BuildableName = "BayAreaClimateTests.xctest"
+               BlueprintName = "BayAreaClimateTests"
+               ReferencedContainer = "container:BayAreaClimate.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -62,9 +62,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "marineTests.xctest"
-               BlueprintName = "marineTests"
-               ReferencedContainer = "container:marine.xcodeproj">
+               BuildableName = "BayAreaClimateTests.xctest"
+               BlueprintName = "BayAreaClimateTests"
+               ReferencedContainer = "container:BayAreaClimate.xcodeproj">
             </BuildableReference>
          </TestableReference>
          <TestableReference
@@ -72,9 +72,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D91DD24E1EE8F10300369A98"
-               BuildableName = "marineUITests.xctest"
-               BlueprintName = "marineUITests"
-               ReferencedContainer = "container:marine.xcodeproj">
+               BuildableName = "BayAreaClimateUITests.xctest"
+               BlueprintName = "BayAreaClimateUITests"
+               ReferencedContainer = "container:BayAreaClimate.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -82,9 +82,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "marine.app"
-            BlueprintName = "marine"
-            ReferencedContainer = "container:marine.xcodeproj">
+            BuildableName = "BayAreaClimate.app"
+            BlueprintName = "BayAreaClimate"
+            ReferencedContainer = "container:BayAreaClimate.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -106,9 +106,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "marine.app"
-            BlueprintName = "marine"
-            ReferencedContainer = "container:marine.xcodeproj">
+            BuildableName = "BayAreaClimate.app"
+            BlueprintName = "BayAreaClimate"
+            ReferencedContainer = "container:BayAreaClimate.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -125,9 +125,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "marine.app"
-            BlueprintName = "marine"
-            ReferencedContainer = "container:marine.xcodeproj">
+            BuildableName = "BayAreaClimate.app"
+            BlueprintName = "BayAreaClimate"
+            ReferencedContainer = "container:BayAreaClimate.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

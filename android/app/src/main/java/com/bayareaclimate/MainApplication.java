@@ -1,4 +1,4 @@
-package com.marine;
+package com.bayareaclimate;
 
 import android.app.Application;
 

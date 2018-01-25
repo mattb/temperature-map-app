@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-               BuildableName = "marine-tvOS.app"
-               BlueprintName = "marine-tvOS"
-               ReferencedContainer = "container:marine.xcodeproj">
+               BuildableName = "BayAreaClimate-tvOS.app"
+               BlueprintName = "BayAreaClimate-tvOS"
+               ReferencedContainer = "container:BayAreaClimate.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -43,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "marine-tvOSTests.xctest"
-               BlueprintName = "marine-tvOSTests"
-               ReferencedContainer = "container:marine.xcodeproj">
+               BuildableName = "BayAreaClimate-tvOSTests.xctest"
+               BlueprintName = "BayAreaClimate-tvOSTests"
+               ReferencedContainer = "container:BayAreaClimate.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -61,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2D02E48F1E0B4A5D006451C7"
-               BuildableName = "marine-tvOSTests.xctest"
-               BlueprintName = "marine-tvOSTests"
-               ReferencedContainer = "container:marine.xcodeproj">
+               BuildableName = "BayAreaClimate-tvOSTests.xctest"
+               BlueprintName = "BayAreaClimate-tvOSTests"
+               ReferencedContainer = "container:BayAreaClimate.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -71,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "marine-tvOS.app"
-            BlueprintName = "marine-tvOS"
-            ReferencedContainer = "container:marine.xcodeproj">
+            BuildableName = "BayAreaClimate-tvOS.app"
+            BlueprintName = "BayAreaClimate-tvOS"
+            ReferencedContainer = "container:BayAreaClimate.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "marine-tvOS.app"
-            BlueprintName = "marine-tvOS"
-            ReferencedContainer = "container:marine.xcodeproj">
+            BuildableName = "BayAreaClimate-tvOS.app"
+            BlueprintName = "BayAreaClimate-tvOS"
+            ReferencedContainer = "container:BayAreaClimate.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -113,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2D02E47A1E0B4A5D006451C7"
-            BuildableName = "marine-tvOS.app"
-            BlueprintName = "marine-tvOS"
-            ReferencedContainer = "container:marine.xcodeproj">
+            BuildableName = "BayAreaClimate-tvOS.app"
+            BlueprintName = "BayAreaClimate-tvOS"
+            ReferencedContainer = "container:BayAreaClimate.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

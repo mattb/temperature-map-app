@@ -1,4 +1,4 @@
 <resources>
     <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey"></string>
-    <string name="app_name">marine</string>
+    <string name="app_name">Bay Area Climate</string>
 </resources>
