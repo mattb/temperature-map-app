@@ -32,7 +32,7 @@ const Settings = ({ onTouch }) => (
     onPress={onTouch}
     style={styles.box}
     testID="settings-box"
-    accessible
+    accessible={false}
     accessibilityLabel="settings"
   >
     <SvgUri style={{ opacity: 0.8 }} width="25" height="25" source={gear} />

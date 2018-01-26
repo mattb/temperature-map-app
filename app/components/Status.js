@@ -39,7 +39,7 @@ const Status = ({
     onPress={onTouch}
     style={styles.box}
     testID="status-panel"
-    accessible
+    accessible={false}
     accessibilityLabel="status"
   >
     <Text
