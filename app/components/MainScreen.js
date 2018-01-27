@@ -146,7 +146,13 @@ class MainScreen extends Component {
     if (this.state.location) {
       return (
         <View>
-          <TouchableOpacity onPress={this.modeClick} activeOpacity={1}>
+          <TouchableOpacity
+            onPress={this.modeClick}
+            activeOpacity={1}
+            testID="map"
+            accessible
+            accessibilityLabel="map"
+          >
             <MapWithLabels
               data={this.props.data}
               isLoading={this.props.isLoading}

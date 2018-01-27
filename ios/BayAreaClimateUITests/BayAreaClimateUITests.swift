@@ -34,10 +34,13 @@ class BayAreaClimateUITests: XCTestCase {
 
     func testExample() {
       let app = XCUIApplication()
-      app.descendants(matching:.any).matching(identifier: "settings-box").element.tap()
-      snapshot("0Settings")
-      app.buttons["Cancel"].tap()
       snapshot("0Launch")
+      app.otherElements["map"].tap()
+      snapshot("1Temps")
+      app.otherElements["status"].tap()
+      app.buttons["Bay Area"].tap()
+      Thread.sleep(forTimeInterval:1)
+      snapshot("2BayArea")
     }
     
 }

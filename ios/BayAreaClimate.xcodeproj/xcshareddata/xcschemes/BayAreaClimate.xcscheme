@@ -11,7 +11,7 @@
             buildForRunning = "YES"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "83CBBA2D1A601D0E00E9B192"
@@ -25,26 +25,12 @@
             buildForRunning = "YES"
             buildForProfiling = "YES"
             buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
+            buildForAnalyzing = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "BayAreaClimate.app"
                BlueprintName = "BayAreaClimate"
-               ReferencedContainer = "container:BayAreaClimate.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "NO"
-            buildForArchiving = "NO"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "BayAreaClimateTests.xctest"
-               BlueprintName = "BayAreaClimateTests"
                ReferencedContainer = "container:BayAreaClimate.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -61,17 +47,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "BayAreaClimateTests.xctest"
-               BlueprintName = "BayAreaClimateTests"
-               ReferencedContainer = "container:BayAreaClimate.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D91DD24E1EE8F10300369A98"
+               BlueprintIdentifier = "D98B2DCA201A9E1300C06940"
                BuildableName = "BayAreaClimateUITests.xctest"
                BlueprintName = "BayAreaClimateUITests"
                ReferencedContainer = "container:BayAreaClimate.xcodeproj">
@@ -91,7 +67,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       language = ""

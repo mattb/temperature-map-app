@@ -38,8 +38,8 @@ const Status = ({
   <TouchableOpacity
     onPress={onTouch}
     style={styles.box}
-    testID="status-panel"
-    accessible={false}
+    testID="status"
+    accessible
     accessibilityLabel="status"
   >
     <Text
