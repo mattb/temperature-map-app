@@ -55,7 +55,6 @@ platform :ios do
       scheme: 'BayAreaClimate'
     )
     deliver(force: true)
-    # frameit
   end
 
   # You can define as many lanes as you want
