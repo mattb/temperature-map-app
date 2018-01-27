@@ -34,9 +34,9 @@ platform :ios do
       type: "appstore",
       git_url: "https://github.com/mattb/marine-certs.git"
     )
-    increment_build_number(xcodeproj: "./marine.xcodeproj")
+    increment_build_number(xcodeproj: "./BayAreaClimate.xcodeproj")
     gym(
-      scheme: 'marine'
+      scheme: 'BayAreaClimate'
     )
     pilot
 
@@ -46,9 +46,14 @@ platform :ios do
 
   desc "Deploy a new version to the App Store"
   lane :release do
-    # match(type: "appstore")
+    match(
+      type: "appstore",
+      git_url: "https://github.com/mattb/marine-certs.git"
+    )
     # snapshot
-    gym # Build your app - more options available
+    gym(
+      scheme: 'BayAreaClimate'
+    )
     deliver(force: true)
     # frameit
   end

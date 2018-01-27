@@ -1,4 +1,4 @@
-app_identifier "com.hackdiary.marine" # The bundle identifier of your app
+app_identifier "com.hackdiary.BayAreaClimate" # The bundle identifier of your app
 apple_id "mbus@hackdiary.com" # Your Apple email address
 team_id "9AQN75857T" # Developer Portal Team ID
 itc_team_id "118356638"
