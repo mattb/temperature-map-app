@@ -51,6 +51,7 @@ platform :ios do
       git_url: "https://github.com/mattb/marine-certs.git"
     )
     # snapshot
+    increment_build_number(xcodeproj: "./BayAreaClimate.xcodeproj")
     gym(
       scheme: 'BayAreaClimate'
     )
