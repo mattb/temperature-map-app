@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { StyleSheet, Image, Text, View } from 'react-native';
+import { Animated, StyleSheet, Image, Text, View } from 'react-native';
 
 const markerGlyph = '🔵';
 
@@ -10,11 +10,59 @@ const imageSize = {
   height: 667
 };
 
+const animationTime = 100;
+
 class MapWithLabels extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.loadingAnim = new Animated.Value(1);
+    this.textAnim = Animated.add(1, Animated.multiply(this.loadingAnim, -1));
+    console.log('CONSTRUCTOR');
+    this.state = {
+      image: props.loading_image,
+      loading_image: props.loading_image
+    };
+
+    this.loadImage = uri => {
+      if (this.state.image && this.state.image.uri === uri) {
+        return;
+      }
+      console.log('PREFETCHING', uri);
+      Image.prefetch(uri).then(success => {
+        if (success) {
+          this.loadingAnim.setValue(1);
+          console.log(
+            'TRANSITIONING',
+            this.state.loading_image &&
+            typeof this.state.loading_image === 'object'
+              ? this.state.loading_image.uri
+              : this.state.loading_image,
+            uri
+          );
+          this.setState(
+            {
+              image: {
+                uri
+              }
+            },
+            () => setTimeout(this.transitionToImage, 1)
+          );
+        }
+      });
+    };
+
+    this.transitionToImage = () => {
+      Animated.timing(this.loadingAnim, {
+        toValue: 0,
+        duration: animationTime,
+        useNativeDriver: true
+      }).start(() => {
+        this.setState(state => ({
+          loading_image: state.image
+        }));
+      });
+    };
 
     this.locationToXY = coords =>
       this.props
@@ -127,6 +175,7 @@ class MapWithLabels extends Component {
         }
       });
     this.styles = this.makeStyles(props);
+    this.loadImage(this.props.image_url);
   }
   componentWillReceiveProps(nextProps) {
     this.styles = this.makeStyles(nextProps);
@@ -141,18 +190,26 @@ class MapWithLabels extends Component {
         this.updateMarker(nextProps.currentPosition);
       });
     }
+    if (this.props.image_url !== nextProps.image_url) {
+      this.loadImage(nextProps.image_url);
+    }
   }
   render() {
     if (this.state.places && !this.props.isLoading) {
       return (
         <View>
-          <Image
-            style={this.styles.map}
-            source={{
-              uri: this.props.image_url,
-              cache: 'force-cache'
-            }}
-            defaultSource={this.props.loading_image}
+          <Image style={this.styles.map} source={this.state.image} />
+          <Animated.Image
+            style={[
+              this.styles.map,
+              {
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                opacity: this.loadingAnim
+              }
+            ]}
+            source={this.state.loading_image}
           />
           {this.state.places.map(place => {
             const opacity = place.isMarker ? 0.6 : 0.8;
@@ -164,9 +221,13 @@ class MapWithLabels extends Component {
               return <View key={place.name} />;
             }
             return (
-              <View
+              <Animated.View
                 key={place.name}
-                style={[this.styles.textWrapper, scaledXY]}
+                style={[
+                  this.styles.textWrapper,
+                  scaledXY,
+                  { opacity: this.textAnim }
+                ]}
               >
                 <Text
                   style={[
@@ -179,7 +240,7 @@ class MapWithLabels extends Component {
                 >
                   {this.format(place)}
                 </Text>
-              </View>
+              </Animated.View>
             );
           })}
         </View>
@@ -187,7 +248,7 @@ class MapWithLabels extends Component {
     }
     return (
       <View style={this.styles.container}>
-        <Image style={this.styles.map} source={this.props.loading_image} />
+        <Image style={this.styles.map} source={this.state.loading_image} />
       </View>
     );
   }
