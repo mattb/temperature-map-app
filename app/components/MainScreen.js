@@ -179,6 +179,7 @@ class MainScreen extends Component {
                 max_in_c={this.props.data.max_in_c}
                 average_in_c={this.props.data.average_in_c}
                 when={this.props.when}
+                sunriseSunset={this.props.sunriseSunset}
                 onTouch={this.locationClick}
               />
             </Bouncing>
@@ -220,12 +221,14 @@ MainScreen.propTypes = {
   isLoading: PropTypes.bool,
   image_url: PropTypes.string,
   when: PropTypes.string,
+  sunriseSunset: PropTypes.string,
   projection: PropTypes.func
 };
 MainScreen.defaultProps = {
   isLoading: true,
   image_url: '',
   when: '',
+  sunriseSunset: '',
   projection: undefined,
   data: {},
   title: '',
@@ -244,6 +247,7 @@ export default connect(
     isLoading: map.selectors.isLoading(state),
     image_url: map.selectors.image_url(state),
     when: map.selectors.when(state),
+    sunriseSunset: map.selectors.sunriseSunset(state),
     projection: map.selectors.projection(state),
     currentPosition: map.selectors.currentPosition(state),
     title: map.selectors.title(state),

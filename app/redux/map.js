@@ -117,6 +117,19 @@ const selectors = {
     (sunset, sunrise) =>
       sunset && sunrise && (sunset.isBefore() || sunrise.isAfter())
   ),
+  sunriseSunset: createSelector(
+    ({ map }) => map.data && moment(map.data.sun.sunset),
+    ({ map }) => map.data && moment(map.data.sun.sunrise),
+    (sunset, sunrise) => {
+      if (!sunset || !sunrise) {
+        return undefined;
+      }
+      if (sunset.isBefore() || sunrise.isAfter()) {
+        return `sunrise at ${sunrise.local().format('h:mma')}`;
+      }
+      return `sunset at ${sunset.local().format('h:mma')}`;
+    }
+  ),
   projection: createSelector(
     d3ScaleSelector,
     d3TranslateSelector,
